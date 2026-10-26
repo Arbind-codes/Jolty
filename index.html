@@ -127,16 +127,328 @@
     <span class="font-label-md text-label-md text-jolty-paper" id="toastMessage">Updating status...</span>
   </div>
 
-  <!-- Shared Top Navigation Header -->
-  <header class="fixed top-0 w-full z-50 pt-safe bg-jolty-cream/95 backdrop-blur-xl border-b border-jolty-line/60 shadow-[0_1px_8px_rgba(0,0,0,0.03)]" id="mainHeader">
-    <div class="h-16 px-margin-mobile max-w-7xl mx-auto flex items-center justify-between">
+  <!-- ======================================================================
+       DEMO AUTHENTICATION GATE CONTAINER (Visible only before successful login)
+       Matches Stitch Login Screen 4a7521646298458ca6f3e5e7b8e796db
+       ====================================================================== -->
+  <div id="authGateContainer" class="relative w-full min-h-screen bg-jolty-cream flex flex-col justify-center items-center overflow-x-hidden pt-safe pb-safe z-40">
+    
+    <!-- Atmospheric Background Visual from Stitch -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+      <!-- Sunset Roadside Hero Underlay -->
+      <div 
+        class="absolute inset-0 bg-cover bg-center scale-105 filter blur-sm opacity-35" 
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB115n3WoMDrZ8zaU0_NQsn1cggFWZRzLuRKqrSoKvDtJCl7p4V8QW-HLUdWd8uT9MY2rfF5mkNIrwXjyOEjLRI7AoIm9BOljDQXvZ7K5UX4Sc6zeFp2004CFcbDStQ9tiW9EXLEIcTgEEJRekTX-8cBTKEugdCX8cfF5qxdmz2rK88oZhlWAT3edny7JxmIA_3x6UdEtTIS5AfIjbGyKDrC1xqHmzY3RhJWTIig8O6NlggNFh4JwHX');"
+      ></div>
+
+      <!-- Truck Art Watermark Flourish Accent in upper-right corner -->
+      <div 
+        class="absolute -top-10 -right-12 w-64 h-64 bg-contain bg-no-repeat opacity-10 mix-blend-multiply pointer-events-none" 
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDw3DlRRlIXiqnoJ-LjL7UC86SrOzk7k-hxSJw9ZLLYkI6yTLZRFk4-83X095du3pSbvNmGrpUriH7p-DHf41HOm4S_n7Ll_pKLEFBj28c6LppR7hB6cq39YSQrtDi1nlc8J70Ud0vi3fIOumL_Zd2lD_b4R5VDTdyqOZLfiIlnnRa80moGcON6xYo4RpZFJieC9n4lfD0l_6_uLjN4dci4-yLkh9Le00pYSsjCinAnwwZsgGep7aFq');"
+      ></div>
+
+      <!-- Warm Cream Ambient Scrim -->
+      <div class="absolute inset-0 bg-gradient-to-b from-jolty-cream/80 via-jolty-cream/95 to-jolty-cream"></div>
+      <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-jolty-amber-soft/40 rounded-full blur-3xl"></div>
+
+      <!-- Traditional Geometric Compass & Highway Mandala SVGs from Stitch -->
+      <svg class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] opacity-[0.14] text-[#B45309]" viewBox="0 0 500 500" fill="none" stroke="currentColor">
+        <circle cx="250" cy="250" r="235" stroke-width="1.2" stroke-dasharray="4 6"></circle>
+        <circle cx="250" cy="250" r="210" stroke-width="1.5"></circle>
+        <circle cx="250" cy="250" r="175" stroke-width="1" stroke-dasharray="2 4"></circle>
+        <circle cx="250" cy="250" r="135" stroke-width="1.2"></circle>
+        <g stroke-width="1.2">
+          <path d="M250 15 C265 80 300 115 365 130 C300 145 265 180 250 245 C235 180 200 145 135 130 C200 115 235 80 250 15 Z"></path>
+          <path d="M250 255 C265 320 300 355 365 370 C300 385 265 420 250 485 C235 420 200 385 135 370 C200 355 235 320 250 255 Z" transform="rotate(45 250 250)"></path>
+          <path d="M250 15 C265 80 300 115 365 130 C300 145 265 180 250 245 C235 180 200 145 135 130 C200 115 235 80 250 15 Z" transform="rotate(90 250 250)"></path>
+          <path d="M250 255 C265 320 300 355 365 370 C300 385 265 420 250 485 C235 420 200 385 135 370 C200 355 235 320 250 255 Z" transform="rotate(135 250 250)"></path>
+          <circle cx="250" cy="250" r="90" stroke-width="1"></circle>
+          <circle cx="250" cy="250" r="42" stroke-width="1.5" fill="#FFB800" fill-opacity="0.06"></circle>
+          <circle cx="250" cy="250" r="12" fill="#D97706" fill-opacity="0.18"></circle>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Auth Card Content Container -->
+    <div class="relative z-10 w-full px-5 py-8 flex flex-col justify-center items-center">
       
-      <!-- Brand Logo Wordmark -->
-      <a href="#home" class="flex items-center min-h-[44px] min-w-[44px] -ml-2 px-2" aria-label="Jolty Home">
-        <span class="font-headline-sm-mobile text-[22px] font-extrabold tracking-tight text-jolty-ink">
-          Jolty<span class="text-jolty-amber font-black">.</span>
-        </span>
-      </a>
+      <!-- Top Utility & Help Status Badge -->
+      <div class="w-full max-w-sm sm:max-w-md flex items-center justify-between mb-4">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-jolty-green/10 text-jolty-green">
+          <span class="w-2 h-2 rounded-full bg-jolty-green animate-pulse"></span>
+          <span class="font-label-sm text-label-sm font-semibold tracking-wide uppercase">24/7 Roadside Active</span>
+        </div>
+        <a class="font-label-sm text-label-sm text-jolty-muted hover:text-jolty-ink flex items-center gap-1 transition-colors" href="tel:18005658924">
+          <span class="material-symbols-outlined text-[16px]">support_agent</span>
+          <span>SOS: 1800-JOLTY-24</span>
+        </a>
+      </div>
+
+      <!-- Centered Login Card -->
+      <div class="w-full max-w-sm sm:max-w-md bg-jolty-paper rounded-2xl shadow-[0_8px_30px_rgba(17,19,21,0.08)] p-6 sm:p-8 relative border border-jolty-line/70">
+        
+        <!-- Brand Wordmark Header -->
+        <div class="text-center mb-5">
+          <div class="inline-flex items-baseline justify-center select-none mb-2">
+            <span class="font-display-hero-mobile text-[36px] leading-none font-black tracking-tight text-jolty-ink">Jolty</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-jolty-amber ml-0.5 self-end mb-1"></span>
+          </div>
+          <h1 class="font-headline-sm-mobile text-headline-sm-mobile text-jolty-ink font-bold tracking-tight mb-1.5" id="authHeadline">
+            Welcome to Jolty
+          </h1>
+          <p class="font-body-sm text-body-sm text-jolty-muted leading-relaxed">
+            Enter your mobile number to access verified 24/7 roadside assistance across Indian highways.
+          </p>
+        </div>
+
+        <!-- Prominent Demo Authentication Mode Callout -->
+        <div class="demo-mode-pill rounded-xl p-3 mb-5 border border-jolty-amber/30 text-left">
+          <div class="flex items-center gap-1.5 text-jolty-ink font-bold text-[13px]">
+            <span class="material-symbols-outlined text-jolty-amber text-[18px]">verified</span>
+            <span>Demo Authentication Mode</span>
+          </div>
+          <p class="text-[12px] text-jolty-ink/85 mt-1 leading-relaxed">
+            This is an evaluator test flow for friends & testers. <strong>No SMS will be sent.</strong> Enter any 10-digit number; the fixed demo OTP is <strong class="font-bold text-jolty-ink bg-jolty-paper px-1.5 py-0.5 rounded border border-jolty-amber/50">123456</strong>.
+          </p>
+        </div>
+
+        <!-- STEP 1: Phone & Name Input Form -->
+        <div id="authStepPhone" class="flex flex-col gap-4">
+          
+          <!-- Friendly Name Input (for onboarding profile consistency) -->
+          <div class="flex flex-col gap-1.5 text-left">
+            <label for="authUserNameInput" class="font-label-sm text-label-sm text-jolty-ink font-medium flex items-center justify-between">
+              <span>Your Name</span>
+              <span class="text-jolty-muted font-normal text-[11px]">Demo display name</span>
+            </label>
+            <input 
+              type="text" 
+              id="authUserNameInput" 
+              placeholder="e.g. Aarav Sharma" 
+              class="w-full bg-jolty-cream/60 rounded-xl px-3.5 h-[48px] text-jolty-ink font-label-md border border-jolty-line focus:outline-none focus:border-jolty-amber focus:bg-jolty-paper transition-all"
+            >
+          </div>
+
+          <!-- Mobile Phone Number Input -->
+          <div class="flex flex-col gap-1.5 text-left">
+            <label for="authMobileInput" class="font-label-sm text-label-sm text-jolty-ink font-medium flex items-center justify-between">
+              <span>Mobile Phone Number</span>
+              <span class="text-jolty-muted font-normal text-[11px]">10 digits</span>
+            </label>
+            <div class="relative flex items-center h-[52px] bg-jolty-cream/60 rounded-xl px-3 transition-all border border-jolty-line focus-within:border-jolty-amber focus-within:bg-jolty-paper focus-within:shadow-[0_0_0_2px_#FFB800]">
+              <div class="flex items-center gap-1.5 pr-2.5 mr-2">
+                <span class="text-base leading-none">🇮🇳</span>
+                <span class="font-label-md text-label-md text-jolty-ink font-semibold">+91</span>
+                <span class="w-px h-5 bg-jolty-line ml-1.5"></span>
+              </div>
+              <input 
+                class="w-full bg-transparent font-label-lg text-label-lg text-jolty-ink placeholder:text-jolty-muted/60 focus:outline-none tracking-wider" 
+                id="authMobileInput" 
+                inputmode="numeric" 
+                maxlength="10" 
+                name="mobile" 
+                placeholder="98765 43210" 
+                type="tel"
+              >
+              <span class="material-symbols-outlined text-jolty-green text-xl hidden transition-all" id="authPhoneValidIcon">
+                check_circle
+              </span>
+            </div>
+            
+            <!-- Error message banner -->
+            <div id="authPhoneError" class="hidden text-error text-[12px] font-medium flex items-center gap-1 mt-0.5">
+              <span class="material-symbols-outlined text-[15px]">error</span>
+              <span id="authPhoneErrorText">Please enter a valid 10-digit Indian phone number</span>
+            </div>
+          </div>
+
+          <!-- Send OTP Action Button -->
+          <button 
+            type="button" 
+            id="authSendOtpBtn" 
+            class="relative w-full h-[50px] bg-jolty-amber hover:bg-[#EAA800] active:scale-[0.98] text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(255,184,0,0.35)] transition-all mt-1"
+          >
+            <span id="authSendOtpBtnText">Continue with Phone</span>
+            <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+          </button>
+
+          <!-- Quick 1-Click Test Demo Login -->
+          <button 
+            type="button" 
+            id="authQuickDemoBtn" 
+            class="w-full h-[44px] bg-surface-container hover:bg-surface-container-high rounded-xl text-jolty-ink font-label-md text-[13px] font-semibold flex items-center justify-center gap-2 border border-jolty-line transition-all active:scale-[0.98]"
+            title="Fast 1-click login for test evaluators"
+          >
+            <span class="material-symbols-outlined text-jolty-amber text-[18px]">bolt</span>
+            <span>1-Click Test Login (Aarav Sharma • 98765 43210)</span>
+          </button>
+        </div>
+
+        <!-- STEP 2: OTP Entry Step (Visible after submitting phone) -->
+        <div id="authStepOtp" class="hidden flex-col gap-4 text-left">
+          
+          <div class="mb-1">
+            <h3 class="font-headline-sm-mobile font-bold text-jolty-ink">Enter Demo OTP</h3>
+            <p class="font-body-sm text-[13px] text-jolty-muted mt-0.5">
+              Verifying demo access for <strong id="authTargetPhoneText" class="text-jolty-ink font-semibold">+91 98765 43210</strong>
+            </p>
+          </div>
+
+          <!-- Explicit Demo Notice: No SMS Sent -->
+          <div class="p-3 bg-jolty-cream rounded-xl border border-jolty-line flex items-start gap-2.5">
+            <span class="material-symbols-outlined text-jolty-amber text-[20px] shrink-0 mt-0.5">key</span>
+            <div>
+              <span class="font-label-sm text-label-sm font-bold text-jolty-ink block">Fixed Demo Code: 123456</span>
+              <p class="text-[12px] text-jolty-ink/80 mt-0.5 leading-snug">
+                No SMS is sent to your phone. Enter <strong>123456</strong> below or click auto-fill to enter the website.
+              </p>
+            </div>
+          </div>
+
+          <!-- 6-digit OTP Input -->
+          <div class="flex flex-col gap-1.5">
+            <label for="authOtpInput" class="font-label-sm text-label-sm text-jolty-ink font-medium">
+              6-Digit Test OTP
+            </label>
+            <div class="relative flex items-center h-[54px] bg-jolty-cream/60 rounded-xl px-4 border border-jolty-line focus-within:border-jolty-amber focus-within:bg-jolty-paper focus-within:shadow-[0_0_0_2px_#FFB800]">
+              <input 
+                type="text" 
+                id="authOtpInput" 
+                inputmode="numeric" 
+                maxlength="6" 
+                placeholder="123456" 
+                class="otp-digit-input w-full bg-transparent text-center font-bold text-[22px] text-jolty-ink focus:outline-none placeholder:text-jolty-muted/40"
+              >
+            </div>
+            
+            <!-- OTP Error message banner -->
+            <div id="authOtpError" class="hidden text-error text-[12px] font-medium flex items-center gap-1 mt-0.5">
+              <span class="material-symbols-outlined text-[15px]">error</span>
+              <span id="authOtpErrorText">Incorrect code. Please enter demo OTP 123456.</span>
+            </div>
+          </div>
+
+          <!-- Verify OTP Action Button -->
+          <button 
+            type="button" 
+            id="authVerifyOtpBtn" 
+            class="relative w-full h-[50px] bg-jolty-amber hover:bg-[#EAA800] active:scale-[0.98] text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(255,184,0,0.35)] transition-all"
+          >
+            <span id="authVerifyOtpBtnText">Verify & Enter Jolty</span>
+            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+          </button>
+
+          <!-- 1-Click Auto Fill Demo Code Button -->
+          <button 
+            type="button" 
+            id="authAutoFillOtpBtn" 
+            class="w-full h-[40px] bg-surface-container hover:bg-surface-container-high rounded-xl text-jolty-ink font-label-md text-[13px] font-medium flex items-center justify-center gap-1.5 border border-jolty-line transition-all active:scale-[0.98]"
+          >
+            <span class="material-symbols-outlined text-jolty-amber text-[16px]">magic_button</span>
+            <span>Fill Demo Code (123456)</span>
+          </button>
+
+          <!-- Change Number Back Link -->
+          <button 
+            type="button" 
+            id="authBackToPhoneBtn" 
+            class="text-jolty-muted hover:text-jolty-ink font-label-sm text-[12px] py-1 transition-colors flex items-center justify-center gap-1 mx-auto cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+            <span>Change Phone Number</span>
+          </button>
+        </div>
+
+        <!-- Visual Divider -->
+        <div class="relative flex items-center my-5">
+          <div class="flex-grow h-px bg-jolty-line"></div>
+          <span class="px-3 font-label-sm text-label-sm text-jolty-muted bg-jolty-paper">or continue with</span>
+          <div class="flex-grow h-px bg-jolty-line"></div>
+        </div>
+
+        <!-- Social Identity Buttons from Stitch -->
+        <div class="grid grid-cols-2 gap-3 mb-5">
+          <button class="h-11 w-full bg-jolty-cream/70 hover:bg-jolty-cream active:scale-[0.97] rounded-xl flex items-center justify-center gap-2 transition-all text-jolty-ink font-label-md text-[13px] border border-jolty-line/70" id="authSocialGoogle" type="button">
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z" fill="#4285F4"></path>
+              <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
+              <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.17 0 9.99 0 12s.45 3.83 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
+              <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.94 1.19 15.23 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+            </svg>
+            <span class="font-semibold text-jolty-ink">Google</span>
+          </button>
+          
+          <button class="h-11 w-full bg-jolty-cream/70 hover:bg-jolty-cream active:scale-[0.97] rounded-xl flex items-center justify-center gap-2 transition-all text-jolty-ink font-label-md text-[13px] border border-jolty-line/70" id="authSocialApple" type="button">
+            <svg class="w-4 h-4 fill-jolty-ink" viewBox="0 0 170 170">
+              <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.74 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.05-7.8-8.08-12.36-15.08-6.73-10.37-12.16-22.18-16.29-35.43-4.13-13.26-6.19-25.59-6.19-37 0-14.73 3.99-26.68 11.96-35.85 7.97-9.17 17.77-13.82 29.39-13.96 4.7 0 9.87 1.25 15.52 3.75 5.65 2.5 9.77 3.78 12.36 3.84 2.12 0 6.35-1.37 12.69-4.11 6.34-2.74 11.75-3.93 16.23-3.56 12.06.84 21.94 5.37 29.62 13.58-10.59 6.44-15.75 15.35-15.5 26.74.25 9.4 3.98 17.29 11.19 23.68 7.21 6.39 15.79 10.02 25.75 10.89-2.58 7.94-5.69 15.37-9.33 22.31zM119.22 31.81c0-7.39 2.68-14.3 8.04-20.73 5.36-6.43 11.99-10.42 19.89-11.98.51 3.8.44 7.42-.21 10.86-.65 3.44-2.05 6.89-4.2 10.35-2.6 4.14-5.83 7.4-9.69 9.78-3.86 2.38-7.79 3.7-11.79 3.96-.28-.75-.84-1.49-1.04-2.24z"></path>
+            </svg>
+            <span class="font-semibold text-jolty-ink">Apple</span>
+          </button>
+        </div>
+
+        <div class="text-center pt-1">
+          <p class="font-body-sm text-[12px] text-jolty-muted">
+            Partner mechanic instead? 
+            <a class="font-semibold text-jolty-ink hover:text-primary transition-colors underline decoration-jolty-amber decoration-2 underline-offset-4 ml-1" href="#mechanics">
+              Join Partner Network
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Assurance & Legal Footer Micro-card -->
+      <div class="w-full max-w-sm sm:max-w-md mt-6 text-center flex flex-col items-center gap-2">
+        <div class="flex items-center justify-center gap-4 text-jolty-muted font-label-sm text-[12px]">
+          <span class="inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px] text-jolty-green" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+            <span>Verified Mechanics</span>
+          </span>
+          <span class="w-1 h-1 rounded-full bg-jolty-line"></span>
+          <span class="inline-flex items-center gap-1">
+            <span class="material-symbols-outlined text-[16px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">bolt</span>
+            <span>15-min Average ETA</span>
+          </span>
+        </div>
+        <p class="font-label-sm text-[11px] leading-tight text-jolty-muted/80 px-4">
+          By signing in, you agree to Jolty’s Terms of Service and Privacy Policy.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       AUTHENTICATED APPLICATION CONTAINER
+       (Hidden before successful demo login; visible only after authentication)
+       ====================================================================== -->
+  <div id="appContainer" class="min-h-screen w-full flex flex-col hidden">
+
+    <!-- Shared Top Navigation Header -->
+    <header class="fixed top-0 w-full z-50 pt-safe bg-jolty-cream/95 backdrop-blur-xl border-b border-jolty-line/60 shadow-[0_1px_8px_rgba(0,0,0,0.03)]" id="mainHeader">
+      
+      <!-- Top Demo Session Notification Strip -->
+      <div id="demoSessionBanner" class="w-full bg-jolty-night text-jolty-paper py-1 px-margin-mobile text-[12px] border-b border-jolty-amber/30">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full bg-jolty-amber text-jolty-ink font-bold text-[10px] uppercase tracking-wider">Demo Session</span>
+            <span class="text-jolty-paper/90 hidden sm:inline">Signed in as <strong id="bannerUserName" class="text-jolty-paper font-semibold">Aarav Sharma</strong> (<span id="bannerUserPhone">+91 98765 43210</span>)</span>
+            <span class="text-jolty-paper/90 sm:hidden"><strong id="bannerUserNameMob">Aarav</strong> (<span id="bannerUserPhoneMob">+91 98765 43210</span>)</span>
+          </div>
+          <button type="button" id="bannerSignOutBtn" class="flex items-center gap-1 text-jolty-amber hover:text-white font-bold text-[11px] underline transition-colors cursor-pointer" title="Sign out and return to demo login screen">
+            <span class="material-symbols-outlined text-[14px]">logout</span>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="h-16 px-margin-mobile max-w-7xl mx-auto flex items-center justify-between">
+        
+        <!-- Brand Logo Wordmark -->
+        <a href="#home" class="flex items-center min-h-[44px] min-w-[44px] -ml-2 px-2" aria-label="Jolty Home">
+          <span class="font-headline-sm-mobile text-[22px] font-extrabold tracking-tight text-jolty-ink">
+            Jolty<span class="text-jolty-amber font-black">.</span>
+          </span>
+        </a>
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex items-center gap-6" aria-label="Main Navigation">
@@ -328,7 +640,7 @@
                   <span class="pricing-badge-tag text-[11px] px-2 py-0.5">Dispatch Assurance</span>
                 </div>
                 <p class="font-body-sm text-body-sm text-jolty-ink/90 mt-0.5">
-                  <strong class="text-jolty-ink font-bold">Repair prices are not included.</strong> The repair cost is separate and depends on the work required after on-site mechanic inspection.
+                  <strong class="text-jolty-ink font-bold">Repair prices are not included in the Jolty fee.</strong> The repair cost is separate and depends on the work required after on-site mechanic inspection.
                 </p>
               </div>
             </div>
@@ -496,7 +808,7 @@
               <div class="flex flex-col">
                 <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Clear upfront pricing</h3>
                 <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">
-                  Transparent Jolty fee before arrival. Repair prices are not included and are quoted on-site.
+                  Transparent Jolty fee before arrival. Repair prices are not included in the Jolty fee and are quoted on-site.
                 </p>
               </div>
             </div>
@@ -712,7 +1024,7 @@
                 </p>
                 <div class="repair-excluded-callout">
                   <p class="font-body-sm text-body-sm text-jolty-ink">
-                    <strong>Repair prices are not included.</strong> The mechanic will inspect your vehicle on arrival and quote the repair cost directly based on parts and work needed.
+                    <strong>Repair prices are not included in the Jolty fee.</strong> The mechanic will inspect your vehicle on arrival and quote the repair cost directly based on parts and work needed.
                   </p>
                 </div>
               </div>
@@ -1326,7 +1638,7 @@
                     Jolty Fee Paid: ₹149
                   </span>
                   <span class="font-label-sm text-[12px] text-jolty-ink/80 block mt-0.5">
-                    <strong>Repair prices are not included.</strong> The repair cost is separate and depends on the work required (to be settled with Suresh Kumar after completion).
+                    <strong>Repair prices are not included in the Jolty fee.</strong> The repair cost is separate and depends on the work required (to be settled with Suresh Kumar after completion).
                   </span>
                 </div>
               </div>
@@ -1392,149 +1704,286 @@
     </section>
 
     <!-- ======================================================================
-         SCREEN 4: LOGIN & IDENTITY (Matches Stitch Screen 4a752164)
+         SCREEN 4: ABOUT JOLTY (Matches Stitch Screen 79c3e793c13e490e80f0bfc80dfaeb8a & about.md)
          ====================================================================== -->
-    <section class="screen-view" id="screen-login" aria-labelledby="loginHeadline">
-      <div class="flex flex-col w-full relative overflow-hidden min-w-0 min-h-[calc(100vh-4rem)] justify-center">
-        
-        <!-- Atmospheric Background Visual -->
-        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div class="absolute inset-0 bg-cover bg-center scale-105 filter blur-sm opacity-35" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB115n3WoMDrZ8zaU0_NQsn1cggFWZRzLuRKqrSoKvDtJCl7p4V8QW-HLUdWd8uT9MY2rfF5mkNIrwXjyOEjLRI7AoIm9BOljDQXvZ7K5UX4Sc6zeFp2004CFcbDStQ9tiW9EXLEIcTgEEJRekTX-8cBTKEugdCX8cfF5qxdmz2rK88oZhlWAT3edny7JxmIA_3x6UdEtTIS5AfIjbGyKDrC1xqHmzY3RhJWTIig8O6NlggNFh4JwHX');"></div>
-          <div class="absolute inset-0 bg-gradient-to-b from-jolty-cream/80 via-jolty-cream/95 to-jolty-cream"></div>
-          <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-jolty-amber-soft/40 rounded-full blur-3xl"></div>
+    <section class="screen-view" id="screen-about" aria-labelledby="aboutHeadline">
+      <div class="flex flex-col w-full max-w-3xl mx-auto px-margin-mobile pt-4 pb-28 gap-space-lg">
+
+        <!-- Hero Section -->
+        <div class="flex flex-col gap-space-md">
+          <!-- Story Badge -->
+          <div class="inline-flex items-center gap-2 self-start px-3 py-1.5 rounded-full bg-jolty-paper text-jolty-ink shadow-sm border border-jolty-line/60">
+            <span class="w-2 h-2 rounded-full bg-jolty-amber"></span>
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-jolty-muted font-bold text-[11px]">The Story Behind Jolty</span>
+          </div>
+
+          <!-- Main Narrative Heading -->
+          <h1 class="font-headline-lg-mobile md:text-headline-lg text-headline-lg-mobile text-jolty-ink font-bold tracking-tight leading-tight" id="aboutHeadline">
+            A roadside problem can stop a journey in seconds.
+          </h1>
+          <p class="font-body-md md:text-body-lg text-body-md text-jolty-muted leading-relaxed">
+            Finding a way forward shouldn’t add another layer of uncertainty.
+          </p>
+
+          <!-- Warm Cinematic Hero Visual Card -->
+          <div class="relative w-full rounded-2xl overflow-hidden shadow-sm bg-jolty-paper border border-jolty-line/60">
+            <div class="relative aspect-[16/10] w-full">
+              <img 
+                class="w-full h-full object-cover" 
+                alt="A calm cinematic Indian highway scene during golden hour where a sedan is safely pulled over onto the shoulder. The driver calmly inspects the mobile app while warm sunlight illuminates the asphalt, road markers, and surrounding foliage in rich amber and sand tones." 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCec2qXqrF91svqzmacyZuQwPQjFupPWsaw3aTRRodE8o23E6lOLIhMhd6JUY-WcCfCleE1YbDCDhKv6oYs3WQlEXxMih1p1vgew2Py7KB3CSiaZYlH0XMpKGTwjXQOpOaCyWapH3fsBvH4YqjdDHjio_D_drp6I0AXS-ILVJpgxtJfCkmp6lr8oa1SkhqaGFme5E_ta8vkZI2fwAvSiPe1xQDFMgnGCLLzxYOZWIM"
+              >
+              <div class="absolute inset-0 bg-gradient-to-t from-jolty-night/75 via-jolty-night/15 to-transparent"></div>
+              <!-- Milestone Badge Overlay -->
+              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-jolty-paper">
+                <div class="flex items-center gap-2 bg-jolty-night/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                  <span class="material-symbols-outlined text-jolty-amber text-[18px]">location_on</span>
+                  <span class="font-label-sm text-label-sm">NH-48 • Reassurance en route</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-jolty-amber-soft font-semibold bg-jolty-night/60 backdrop-blur-sm px-2.5 py-1 rounded-full">24/7 Available</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Content Container -->
-        <div class="relative z-10 w-full px-5 py-6 flex flex-col justify-center items-center">
-          
-          <!-- Top Utility & Help Status Badge -->
-          <div class="w-full max-w-sm flex items-center justify-between mb-5">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-jolty-green/10 text-jolty-green">
-              <span class="w-2 h-2 rounded-full bg-jolty-green animate-pulse"></span>
-              <span class="font-label-sm text-label-sm font-semibold tracking-wide uppercase">24/7 Roadside Active</span>
-            </div>
-            <a class="font-label-sm text-label-sm text-jolty-muted hover:text-jolty-ink flex items-center gap-1 transition-colors" href="tel:18005658924">
-              <span class="material-symbols-outlined text-[16px]">support_agent</span>
-              <span>SOS Helpline</span>
-            </a>
+        <!-- Chapter 1: The moment nobody plans for -->
+        <section class="flex flex-col gap-space-md pt-space-xs" aria-labelledby="chapter1Headline">
+          <div class="flex items-center gap-2 text-primary font-bold">
+            <span class="material-symbols-outlined text-[20px]">warning_amber</span>
+            <span class="font-label-md text-label-md uppercase tracking-wider text-[12px]">Chapter 1</span>
+          </div>
+          <h2 class="font-headline-md-mobile md:text-headline-md text-headline-md-mobile text-jolty-ink font-bold tracking-tight" id="chapter1Headline">
+            The moment nobody plans for.
+          </h2>
+          <p class="font-body-md text-body-md text-jolty-muted leading-relaxed">
+            You’re on your way somewhere. Then a tyre goes flat, the car won’t start, or something just doesn’t feel right. The day changes in an instant.
+          </p>
+
+          <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex flex-col gap-1">
+            <span class="font-label-md text-label-md text-jolty-ink font-bold">And suddenly,</span>
+            <p class="font-body-md text-body-md text-jolty-muted">the problem feels bigger than the vehicle itself.</p>
           </div>
 
-          <!-- Centered Login Card -->
-          <div class="w-full max-w-sm bg-jolty-paper rounded-2xl shadow-sm p-6 sm:p-7 relative transition-all border border-jolty-line/60">
-            <!-- Brand Wordmark Header -->
-            <div class="text-center mb-6">
-              <div class="inline-flex items-baseline justify-center select-none mb-3">
-                <span class="font-display-hero-mobile text-[34px] leading-none font-black tracking-tight text-jolty-ink">Jolty</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-jolty-amber ml-0.5 self-end mb-1"></span>
+          <!-- 4 Core Uncertainties (Grid of cards) -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm pt-space-xs">
+            <!-- Card 1 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex flex-col justify-between gap-space-sm">
+              <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[18px]">engineering</span>
               </div>
-              <h1 class="font-headline-sm-mobile text-headline-sm-mobile text-jolty-ink font-bold tracking-tight mb-2" id="loginHeadline">
-                Welcome back
-              </h1>
-              <p class="font-body-sm text-body-sm text-jolty-muted leading-relaxed px-1">
-                Log in to book mechanic services, track your rescue status, and manage your vehicles.
-              </p>
+              <p class="font-label-md text-label-md text-jolty-ink font-semibold">Who can help?</p>
             </div>
-
-            <!-- Authentication Form -->
-            <form class="flex flex-col gap-4" id="loginForm">
-              <div class="flex flex-col gap-1.5">
-                <label class="font-label-sm text-label-sm text-jolty-ink font-medium flex items-center justify-between" for="mobile-number">
-                  <span>Mobile Phone Number</span>
-                  <span class="text-jolty-muted font-normal text-[11px]">Instant SMS OTP</span>
-                </label>
-                <div class="relative flex items-center h-[52px] bg-jolty-cream/60 rounded-xl px-3 transition-all focus-within:bg-jolty-paper focus-within:shadow-[0_0_0_2px_#FFB800] border border-jolty-line/60">
-                  <div class="flex items-center gap-1.5 pr-2.5 mr-2">
-                    <span class="text-base leading-none">🇮🇳</span>
-                    <span class="font-label-md text-label-md text-jolty-ink font-semibold">+91</span>
-                    <span class="w-px h-5 bg-jolty-line ml-1.5"></span>
-                  </div>
-                  <input 
-                    class="w-full bg-transparent font-label-lg text-label-lg text-jolty-ink placeholder:text-jolty-muted/60 focus:outline-none tracking-wider" 
-                    id="mobile-number" 
-                    inputmode="numeric" 
-                    maxlength="10" 
-                    name="mobile" 
-                    placeholder="98765 43210" 
-                    required 
-                    type="tel"
-                  >
-                  <span class="material-symbols-outlined text-jolty-green text-xl hidden transition-all" id="phone-valid-icon" style="font-variation-settings: 'FILL' 1;">
-                    check_circle
-                  </span>
-                </div>
+            <!-- Card 2 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex flex-col justify-between gap-space-sm">
+              <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[18px]">alt_route</span>
               </div>
+              <p class="font-label-md text-label-md text-jolty-ink font-semibold">What should you do next?</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex flex-col justify-between gap-space-sm">
+              <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[18px]">explore</span>
+              </div>
+              <p class="font-label-md text-label-md text-jolty-ink font-semibold">Where are you, exactly?</p>
+            </div>
+            <!-- Card 4 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex flex-col justify-between gap-space-sm">
+              <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[18px]">payments</span>
+              </div>
+              <p class="font-label-md text-label-md text-jolty-ink font-semibold">What will this cost?</p>
+            </div>
+          </div>
+        </section>
 
-              <!-- Primary Action: Send OTP Button -->
-              <button 
-                class="relative w-full h-[50px] bg-jolty-amber hover:bg-[#EAA800] active:scale-[0.98] text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(255,184,0,0.35)] transition-all mt-1" 
-                id="otp-btn" 
-                type="submit"
+        <!-- Chapter 2: The part after the breakdown -->
+        <section class="flex flex-col gap-space-md pt-space-xs" aria-labelledby="chapter2Headline">
+          <div class="flex items-center gap-2 text-primary font-bold">
+            <span class="material-symbols-outlined text-[20px]">lightbulb</span>
+            <span class="font-label-md text-label-md uppercase tracking-wider text-[12px]">Chapter 2</span>
+          </div>
+          <h2 class="font-headline-md-mobile md:text-headline-md text-headline-md-mobile text-jolty-ink font-bold tracking-tight" id="chapter2Headline">
+            The part after the breakdown.
+          </h2>
+          <p class="font-body-md text-body-md text-jolty-muted leading-relaxed">
+            Roadside trouble is stressful enough. Getting help can mean figuring out what kind of assistance you need, explaining where you are, and making sense of costs before you know what repair work may be required.
+          </p>
+
+          <!-- Highway Art Vignette -->
+          <div class="relative w-full rounded-2xl overflow-hidden bg-jolty-paper shadow-sm border border-jolty-line/60 p-space-md flex flex-col gap-space-md">
+            <div class="w-full aspect-[3/2] max-h-72 rounded-xl overflow-hidden bg-secondary-container/40 flex items-center justify-center border border-jolty-line/40">
+              <img 
+                alt="Decorated Indian Tata Truck Sketch" 
+                class="w-full h-full object-contain p-2" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrWkWKYzRCjVkj5OYFThRoKcstTZD7MyF6uUi0DQmwH6HOVHSu1UgXU4j93s4KuA4YJY7oHDc1P0JdkKsFX4E7V3lf2_akCruEetrZqAaguINk-qo2lhHi72aDugZioibOblkxMnBxrFZDRc_HttijBZAJlrjT2j7XIaojlQTyjTExEp3uCEiprfIMdcjaz4uEa2Fj2zlnZGl2sagulZsTeCaHl37oOACyllmj7noVhdVZhmyG8kLO"
               >
-                <span id="otp-btn-text">Send OTP</span>
-                <span class="material-symbols-outlined text-[20px]" id="otp-btn-icon">arrow_forward</span>
-              </button>
-            </form>
-
-            <!-- Divider -->
-            <div class="relative flex items-center my-6">
-              <div class="flex-grow h-px bg-jolty-line"></div>
-              <span class="px-3 font-label-sm text-label-sm text-jolty-muted bg-jolty-paper">or continue with</span>
-              <div class="flex-grow h-px bg-jolty-line"></div>
             </div>
-
-            <!-- Social Identity Buttons -->
-            <div class="grid grid-cols-2 gap-3 mb-6">
-              <button class="h-12 w-full bg-jolty-cream/70 hover:bg-jolty-cream active:scale-[0.97] rounded-xl flex items-center justify-center gap-2.5 transition-all text-jolty-ink font-label-md text-label-md border border-jolty-line/60" id="googleLoginBtn" type="button">
-                <svg class="w-5 h-5" viewBox="0 0 24 24">
-                  <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z" fill="#4285F4"></path>
-                  <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
-                  <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.17 0 9.99 0 12s.45 3.83 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
-                  <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.94 1.19 15.23 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
-                </svg>
-                <span class="font-semibold text-jolty-ink">Google</span>
-              </button>
-
-              <button class="h-12 w-full bg-jolty-cream/70 hover:bg-jolty-cream active:scale-[0.97] rounded-xl flex items-center justify-center gap-2.5 transition-all text-jolty-ink font-label-md text-label-md border border-jolty-line/60" id="appleLoginBtn" type="button">
-                <svg class="w-5 h-5 fill-jolty-ink" viewBox="0 0 170 170">
-                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.74 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.05-7.8-8.08-12.36-15.08-6.73-10.37-12.16-22.18-16.29-35.43-4.13-13.26-6.19-25.59-6.19-37 0-14.73 3.99-26.68 11.96-35.85 7.97-9.17 17.77-13.82 29.39-13.96 4.7 0 9.87 1.25 15.52 3.75 5.65 2.5 9.77 3.78 12.36 3.84 2.12 0 6.35-1.37 12.69-4.11 6.34-2.74 11.75-3.93 16.23-3.56 12.06.84 21.94 5.37 29.62 13.58-10.59 6.44-15.75 15.35-15.5 26.74.25 9.4 3.98 17.29 11.19 23.68 7.21 6.39 15.79 10.02 25.75 10.89-2.58 7.94-5.69 15.37-9.33 22.31zM119.22 31.81c0-7.39 2.68-14.3 8.04-20.73 5.36-6.43 11.99-10.42 19.89-11.98.51 3.8.44 7.42-.21 10.86-.65 3.44-2.05 6.89-4.2 10.35-2.6 4.14-5.83 7.4-9.69 9.78-3.86 2.38-7.79 3.7-11.79 3.96-.28-.75-.84-1.49-1.04-2.24z"></path>
-                </svg>
-                <span class="font-semibold text-jolty-ink">Apple</span>
-              </button>
-            </div>
-
-            <!-- Alternate Link -->
-            <div class="text-center pt-1">
-              <p class="font-body-sm text-body-sm text-jolty-muted">
-                New to Jolty? 
-                <a class="font-label-md text-label-md text-jolty-ink font-bold hover:text-primary transition-colors underline decoration-jolty-amber decoration-2 underline-offset-4 ml-1" href="#home">
-                  Explore as Guest
-                </a>
+            <div class="flex flex-col gap-1.5">
+              <p class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile text-jolty-ink font-bold">That idea became Jolty.</p>
+              <p class="font-body-md text-body-md text-jolty-muted leading-relaxed">
+                We saw an opportunity to make that experience easier to navigate: bring the request into one clear journey, help people share or enter their location, and make the steps and fees easier to understand.
               </p>
             </div>
           </div>
+        </section>
 
-          <!-- Trust Badges & Legal -->
-          <div class="w-full max-w-sm mt-6 text-center flex flex-col items-center gap-3">
-            <div class="flex items-center justify-center gap-4 text-jolty-muted font-label-sm text-label-sm">
-              <span class="inline-flex items-center gap-1">
-                <span class="material-symbols-outlined text-[16px] text-jolty-green" style="font-variation-settings: 'FILL' 1;">verified_user</span>
-                <span>Verified Mechanics</span>
-              </span>
-              <span class="w-1 h-1 rounded-full bg-jolty-line"></span>
-              <span class="inline-flex items-center gap-1">
-                <span class="material-symbols-outlined text-[16px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">bolt</span>
-                <span>15-min ETA</span>
-              </span>
+        <!-- Chapter 3: A clearer way to ask for help -->
+        <section class="flex flex-col gap-space-md pt-space-xs" aria-labelledby="chapter3Headline">
+          <div class="flex items-center gap-2 text-primary font-bold">
+            <span class="material-symbols-outlined text-[20px]">handshake</span>
+            <span class="font-label-md text-label-md uppercase tracking-wider text-[12px]">Chapter 3</span>
+          </div>
+          <h2 class="font-headline-md-mobile md:text-headline-md text-headline-md-mobile text-jolty-ink font-bold tracking-tight" id="chapter3Headline">
+            A clearer way to ask for help.
+          </h2>
+          <p class="font-body-md text-body-md text-jolty-muted leading-relaxed">
+            Jolty is being built to help you find and arrange roadside assistance through a straightforward online experience. You can explore the available help, provide an address by sharing your device location or entering it yourself, and move through the request with the information in view.
+          </p>
+
+          <!-- 3 Steps Stacked -->
+          <div class="flex flex-col gap-space-sm pt-space-xs">
+            <!-- Step 1 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex items-start gap-space-md">
+              <div class="w-10 h-10 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center font-bold font-headline-sm-mobile shrink-0 shadow-sm">
+                1
+              </div>
+              <div class="flex flex-col">
+                <h3 class="font-label-lg text-label-lg text-jolty-ink font-bold">Tell us what happened</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-1 leading-relaxed">
+                  Select flat tyre, battery jumpstart, minor mechanical repair, or vehicle tow with straightforward options.
+                </p>
+              </div>
             </div>
-            <p class="font-label-sm text-[12px] leading-tight text-jolty-muted/80 px-4">
-              By continuing, you agree to Jolty’s 
-              <a class="text-jolty-ink underline underline-offset-2 hover:text-primary transition-colors" href="#terms">Terms of Service</a> 
-              and 
-              <a class="text-jolty-ink underline underline-offset-2 hover:text-primary transition-colors" href="#privacy">Privacy Policy</a>.
+            <!-- Step 2 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex items-start gap-space-md">
+              <div class="w-10 h-10 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center font-bold font-headline-sm-mobile shrink-0 shadow-sm">
+                2
+              </div>
+              <div class="flex flex-col">
+                <h3 class="font-label-lg text-label-lg text-jolty-ink font-bold">Confirm where you are</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-1 leading-relaxed">
+                  Share your device pin or type a nearby highway milestone or toll plaza. You stay in control of the address.
+                </p>
+              </div>
+            </div>
+            <!-- Step 3 -->
+            <div class="p-space-md rounded-xl bg-jolty-paper shadow-sm border border-jolty-line/60 flex items-start gap-space-md">
+              <div class="w-10 h-10 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center font-bold font-headline-sm-mobile shrink-0 shadow-sm">
+                3
+              </div>
+              <div class="flex flex-col">
+                <h3 class="font-label-lg text-label-lg text-jolty-ink font-bold">Review the next step</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-1 leading-relaxed">
+                  See the assigned mechanic profile, vehicle type, ETA, and direct phone link before any work begins.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Privacy Note Box -->
+          <div class="p-space-md rounded-xl bg-surface-container flex items-start gap-3 border border-jolty-line/60">
+            <span class="material-symbols-outlined text-jolty-green text-[22px] shrink-0 mt-0.5">verified_user</span>
+            <p class="font-body-sm text-body-sm text-jolty-muted leading-relaxed">
+              <strong class="text-jolty-ink font-semibold">Privacy note:</strong> Location sharing is your choice. If you use it, the address is an estimate for you to review and correct before continuing.
             </p>
           </div>
+        </section>
 
-        </div>
+        <!-- Chapter 4: Clear about the cost -->
+        <section class="flex flex-col gap-space-md pt-space-xs" aria-labelledby="chapter4Headline">
+          <div class="flex items-center gap-2 text-primary font-bold">
+            <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+            <span class="font-label-md text-label-md uppercase tracking-wider text-[12px]">Chapter 4</span>
+          </div>
+          <h2 class="font-headline-md-mobile md:text-headline-md text-headline-md-mobile text-jolty-ink font-bold tracking-tight" id="chapter4Headline">
+            Clear about the cost.
+          </h2>
+
+          <!-- Prominent Cost Clarity Box -->
+          <div class="rounded-2xl bg-jolty-paper shadow-sm border border-jolty-line/60 overflow-hidden flex flex-col p-space-md gap-space-md">
+            <div class="p-space-md rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-3">
+              <span class="material-symbols-outlined text-primary text-[22px] shrink-0 mt-0.5">info</span>
+              <p class="font-label-md text-label-md text-jolty-ink font-bold leading-snug">
+                The Jolty fee is separate from the repair cost. Repair prices are not included in the Jolty fee.
+              </p>
+            </div>
+
+            <!-- Distinct stacked breakdown -->
+            <div class="flex flex-col sm:flex-row gap-space-sm">
+              <!-- Jolty Platform Fee -->
+              <div class="p-space-md rounded-xl bg-surface-container flex-1 flex flex-col gap-1.5 border border-jolty-line/40">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-md text-label-md text-jolty-ink font-bold">Jolty Platform Fee</span>
+                  <span class="px-2 py-0.5 rounded-full bg-jolty-amber/20 text-jolty-ink font-label-sm text-[11px] font-bold">Fixed &amp; Upfront</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-jolty-muted leading-relaxed">
+                  Covers network dispatch, identity verification of the roadside mechanic, live coordinates tracking, and phone support.
+                </p>
+              </div>
+
+              <!-- Mechanic Repair Cost -->
+              <div class="p-space-md rounded-xl bg-surface-container flex-1 flex flex-col gap-1.5 border border-jolty-line/40">
+                <div class="flex items-center justify-between">
+                  <span class="font-label-md text-label-md text-jolty-ink font-bold">Mechanic Repair Cost</span>
+                  <span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-jolty-muted font-label-sm text-[11px] font-bold">On-Site Quote</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-jolty-muted leading-relaxed">
+                  Determined by the mechanic based on actual labor, spare parts, and vehicle requirements. Never bundled or hidden in advance.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1 text-jolty-green">
+              <span class="material-symbols-outlined text-[18px]">check_circle</span>
+              <span class="font-label-sm text-label-sm font-semibold">Complete transparency before you confirm any call-out.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Chapter 5: The journey we want to make possible -->
+        <section class="flex flex-col gap-space-md pt-space-xs" aria-labelledby="chapter5Headline">
+          <div class="flex items-center gap-2 text-primary font-bold">
+            <span class="material-symbols-outlined text-[20px]">route</span>
+            <span class="font-label-md text-label-md uppercase tracking-wider text-[12px]">Chapter 5</span>
+          </div>
+          <h2 class="font-headline-lg-mobile md:text-headline-lg text-headline-lg-mobile text-jolty-ink font-bold leading-tight" id="chapter5Headline">
+            A breakdown may be out of your hands. Knowing where to start shouldn’t be.
+          </h2>
+          <p class="font-body-md text-body-md text-jolty-muted leading-relaxed">
+            Jolty is our effort to make that first step feel more manageable: a clearer way to find roadside help, share the right details, and understand the costs involved. We’re building toward a better experience for the moment when you need a hand getting moving again.
+          </p>
+
+          <!-- Expressive Closing Image -->
+          <div class="relative w-full rounded-2xl overflow-hidden shadow-sm bg-jolty-paper border border-jolty-line/60">
+            <div class="relative aspect-[16/9] w-full">
+              <img 
+                alt="Cinematic wide view of an Indian national highway stretching towards open horizon into a warm golden sunset" 
+                class="w-full h-full object-cover" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWDXzRTrpNKQcYbYdbYayjL5e4UQkrpndWJnLIPipvIUowGqaHjGW7Eb8Mwfpmv7eEWjgXZ-p3xOzDifQ4c7lNeDIyOSEi27HrfOX8ulbl25jFWASJZGaXUgAXKdOhWkX_cwR7jpFE1ENWfoSBe6K8NDWKU8SwjYWgeZeRKPVaMiLxrP6UiauikwkkjsuqnHNKmSjCN2vaAQgcxVpmxfV6RoY_sGoRfixByg2FCIM"
+              >
+              <div class="absolute inset-0 bg-gradient-to-t from-jolty-night/75 via-transparent to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 text-center">
+                <span class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile text-jolty-paper font-bold tracking-wide drop-shadow-md">
+                  हर सफ़र में साथ — Har Safar Mein Saath
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Primary Action CTA Button -->
+          <div class="flex flex-col gap-space-sm pt-space-xs">
+            <a href="#mechanics" class="w-full min-h-[52px] px-space-lg bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(255,184,0,0.3)] transition-transform active:scale-98">
+              <span>Find Mechanics Now</span>
+              <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+            </a>
+            <!-- Footnote Disclaimer -->
+            <p class="font-label-sm text-label-sm text-jolty-muted text-center pt-2 leading-relaxed">
+              *Available assistance and fees depend on your location and request. The Jolty fee does not include repair prices.*
+            </p>
+          </div>
+        </section>
+
       </div>
     </section>
 
@@ -2017,7 +2466,7 @@
         <!-- EXPLICIT REPAIR EXCLUSION MANDATE -->
         <div class="repair-excluded-callout mt-2.5 bg-jolty-paper p-3 rounded-lg border-l-4 border-jolty-amber">
           <p class="font-body-sm text-body-sm text-jolty-ink leading-tight">
-            <strong class="font-bold text-jolty-ink">Repair prices are not included.</strong><br>
+            <strong class="font-bold text-jolty-ink">Repair prices are not included in the Jolty fee.</strong><br>
             The repair cost is separate and depends on the work required. The mechanic will inspect the issue on-site and quote itemized repair charges before beginning any work.
           </p>
         </div>
@@ -2093,9 +2542,9 @@
         <span class="material-symbols-outlined text-[22px]">route</span>
         <span class="font-label-sm text-[11px]">Process</span>
       </a>
-      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#mechanics" data-route="mechanics">
-        <span class="material-symbols-outlined text-[22px]">handyman</span>
-        <span class="font-label-sm text-[11px]">Mechanics</span>
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#about" data-route="about">
+        <span class="material-symbols-outlined text-[22px]">info</span>
+        <span class="font-label-sm text-[11px]">About</span>
       </a>
       <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#profile" data-route="profile">
         <span class="material-symbols-outlined text-[22px]">person</span>
@@ -2103,6 +2552,8 @@
       </a>
     </div>
   </nav>
+
+  </div> <!-- End #appContainer -->
 
   <!-- Scripts -->
   <script src="js/location-service.js"></script>

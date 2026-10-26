@@ -34,10 +34,58 @@
       name: 'Aarav Sharma',
       phone: '+91 98765 43210',
       vehicle: 'DL 01 AB 7890 (Hyundai Creta)',
-      isLoggedIn: true
+      isLoggedIn: false
     },
+    tempAuthData: null,
     viewMode: 'list' // 'list' | 'map'
   };
+
+  // Demo Session Management (Browser LocalStorage Boundary)
+  function loadDemoSession() {
+    try {
+      const stored = localStorage.getItem('jolty_demo_session');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed && parsed.isLoggedIn) {
+          AppState.user.isLoggedIn = true;
+          AppState.user.phone = parsed.phone || '+91 98765 43210';
+          AppState.user.name = parsed.name || 'Aarav Sharma';
+          return true;
+        }
+      }
+    } catch (err) {
+      console.warn('Could not read demo session from localStorage:', err);
+    }
+    AppState.user.isLoggedIn = false;
+    return false;
+  }
+
+  function saveDemoSession(phone, name) {
+    const sessionObj = {
+      isLoggedIn: true,
+      phone: phone || '+91 98765 43210',
+      name: name || 'Aarav Sharma',
+      timestamp: Date.now()
+    };
+    try {
+      localStorage.setItem('jolty_demo_session', JSON.stringify(sessionObj));
+    } catch (err) {
+      console.warn('Could not save demo session to localStorage:', err);
+    }
+    AppState.user.isLoggedIn = true;
+    AppState.user.phone = sessionObj.phone;
+    AppState.user.name = sessionObj.name;
+  }
+
+  function clearDemoSession() {
+    try {
+      localStorage.removeItem('jolty_demo_session');
+    } catch (err) {
+      console.warn('Could not remove demo session from localStorage:', err);
+    }
+    AppState.user.isLoggedIn = false;
+    AppState.tempAuthData = null;
+  }
 
   // Toast Notification Controller
   function showToast(message, icon = 'info', duration = 3200) {
@@ -58,6 +106,61 @@
     }, duration);
   }
 
+  // Synchronize Authentication Gating & UI Consistency
+  function syncAuthStateUI() {
+    const authGate = document.getElementById('authGateContainer');
+    const appContainer = document.getElementById('appContainer');
+
+    const bannerUserName = document.getElementById('bannerUserName');
+    const bannerUserPhone = document.getElementById('bannerUserPhone');
+    const bannerUserNameMob = document.getElementById('bannerUserNameMob');
+    const bannerUserPhoneMob = document.getElementById('bannerUserPhoneMob');
+    const profileHeadline = document.getElementById('profileHeadline');
+    const profilePhoneDisplay = document.getElementById('profilePhoneDisplay');
+    const dropdownUserName = document.getElementById('dropdownUserName');
+    const dropdownUserPhone = document.getElementById('dropdownUserPhone');
+
+    if (AppState.user.isLoggedIn) {
+      // User is authenticated: Hide login experience, reveal authenticated app
+      if (authGate) authGate.classList.add('hidden');
+      if (appContainer) appContainer.classList.remove('hidden');
+
+      const name = AppState.user.name || 'Aarav Sharma';
+      const phone = AppState.user.phone || '+91 98765 43210';
+
+      if (bannerUserName) bannerUserName.textContent = name;
+      if (bannerUserPhone) bannerUserPhone.textContent = phone;
+      if (bannerUserNameMob) bannerUserNameMob.textContent = name.split(' ')[0] || name;
+      if (bannerUserPhoneMob) bannerUserPhoneMob.textContent = phone;
+
+      if (profileHeadline) profileHeadline.textContent = name;
+      if (profilePhoneDisplay) profilePhoneDisplay.textContent = phone;
+
+      if (dropdownUserName) dropdownUserName.textContent = name;
+      if (dropdownUserPhone) dropdownUserPhone.textContent = phone;
+
+      updateHeaderUI(AppState.currentRoute);
+    } else {
+      // User is not authenticated: Show ONLY login experience, hide all app content
+      if (authGate) authGate.classList.remove('hidden');
+      if (appContainer) appContainer.classList.add('hidden');
+
+      // Reset login form steps
+      const stepPhone = document.getElementById('authStepPhone');
+      const stepOtp = document.getElementById('authStepOtp');
+      if (stepPhone) stepPhone.classList.remove('hidden');
+      if (stepOtp) stepOtp.classList.add('hidden');
+
+      const phoneError = document.getElementById('authPhoneError');
+      const otpError = document.getElementById('authOtpError');
+      if (phoneError) phoneError.classList.add('hidden');
+      if (otpError) otpError.classList.add('hidden');
+
+      const otpInput = document.getElementById('authOtpInput');
+      if (otpInput) otpInput.value = '';
+    }
+  }
+
   // Route Controller
   function navigateTo(route) {
     if (!route) route = 'home';
@@ -65,11 +168,17 @@
 
     // Map aliased routes
     if (route === 'services') route = 'mechanics';
-    if (route === 'about' || route === 'process') route = 'home';
+    if (route === 'process') route = 'tracking';
 
-    const validRoutes = ['home', 'mechanics', 'tracking', 'login', 'profile'];
+    const validRoutes = ['home', 'mechanics', 'tracking', 'about', 'profile'];
     if (!validRoutes.includes(route)) {
       route = 'home';
+    }
+
+    // Authentication gating: protect all views before login
+    if (!AppState.user.isLoggedIn) {
+      syncAuthStateUI();
+      return;
     }
 
     AppState.previousRoute = AppState.currentRoute;
@@ -97,6 +206,19 @@
       } else {
         item.classList.remove('text-jolty-ink', 'font-bold');
         item.classList.add('text-jolty-muted');
+      }
+    });
+
+    // Update Desktop Nav Links
+    const desktopLinks = document.querySelectorAll('#mainHeader nav a');
+    desktopLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === `#${route}`) {
+        link.classList.add('text-jolty-ink', 'font-semibold');
+        link.classList.remove('text-jolty-muted', 'font-medium');
+      } else {
+        link.classList.remove('text-jolty-ink', 'font-semibold');
+        link.classList.add('text-jolty-muted', 'font-medium');
       }
     });
 
@@ -135,7 +257,7 @@
     if (route === 'tracking') {
       if (headerHelpBtn) {
         headerHelpBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] mr-1">call</span><span>SOS 24/7</span>';
-        headerHelpBtn.href = 'tel:18001088899';
+        headerHelpBtn.href = 'tel:18005658924';
       }
     } else {
       if (headerHelpBtn) {
@@ -161,80 +283,44 @@
     } else {
       if (userName) userName.textContent = 'Guest Traveler';
       if (userPhone) userPhone.textContent = 'Not signed in';
+      if (summaryCard) summaryCard.style.display = 'none';
     }
 
-    const isHome = AppState.currentRoute === 'home';
-    const isProfile = AppState.currentRoute === 'profile';
-
+    const current = AppState.currentRoute;
     let html = '';
 
     if (AppState.user.isLoggedIn) {
-      if (isHome) {
-        // When in home screen: options are View Profile and Log Out
+      if (current !== 'home') {
+        html += `
+          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">home</span>
+            <span class="font-semibold text-[14px]">Home</span>
+          </a>
+        `;
+      }
+      if (current !== 'profile') {
         html += `
           <a href="#profile" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
             <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">person</span>
             <span class="font-semibold text-[14px]">View Profile</span>
           </a>
-          <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-error">logout</span>
-            <span class="font-semibold text-[14px]">Log Out</span>
-          </button>
-        `;
-      } else if (isProfile) {
-        // When in profile screen: options are Go to Home or Log Out
-        html += `
-          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">home</span>
-            <span class="font-semibold text-[14px]">Go to Home</span>
-          </a>
-          <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-error">logout</span>
-            <span class="font-semibold text-[14px]">Log Out</span>
-          </button>
-        `;
-      } else {
-        // Any other screen (e.g. mechanics, tracking, login)
-        html += `
-          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">home</span>
-            <span class="font-semibold text-[14px]">Go to Home</span>
-          </a>
-          <a href="#profile" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
-            <span class="font-semibold text-[14px]">View Profile</span>
-          </a>
-          <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-error">logout</span>
-            <span class="font-semibold text-[14px]">Log Out</span>
-          </button>
         `;
       }
-    } else {
-      // Logged out / guest traveler state
-      if (isProfile) {
+      if (current !== 'about') {
         html += `
-          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-jolty-amber">home</span>
-            <span class="font-semibold text-[14px]">Go to Home</span>
-          </a>
-          <a href="#login" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-primary font-bold hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px]">login</span>
-            <span class="font-semibold text-[14px]">Sign In / Register</span>
-          </a>
-        `;
-      } else {
-        html += `
-          <a href="#profile" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px] text-primary">person</span>
-            <span class="font-semibold text-[14px]">View Profile</span>
-          </a>
-          <a href="#login" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-primary font-bold hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
-            <span class="material-symbols-outlined text-[20px]">login</span>
-            <span class="font-semibold text-[14px]">Sign In / Register</span>
+          <a href="#about" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">info</span>
+            <span class="font-semibold text-[14px]">About Jolty</span>
           </a>
         `;
       }
+      html += `
+        <div class="h-px bg-jolty-line/70 my-1"></div>
+        <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors cursor-pointer" role="menuitem">
+          <span class="material-symbols-outlined text-[20px] text-error">logout</span>
+          <span class="font-semibold text-[14px]">Sign Out / Reset Demo</span>
+        </button>
+      `;
     }
 
     container.innerHTML = html;
@@ -311,12 +397,9 @@
   }
 
   function performLogout() {
-    AppState.user.isLoggedIn = false;
-    showToast('Logged out of Jolty', 'logout');
-    updateHeaderUI(AppState.currentRoute);
-    if (AppState.currentRoute === 'profile') {
-      navigateTo('home');
-    }
+    clearDemoSession();
+    syncAuthStateUI();
+    showToast('Signed out. Authenticated website content is now hidden.', 'logout', 3500);
   }
 
   function setupProfileScreen() {
@@ -810,99 +893,263 @@
     }
   }
 
-  // Login Form Interactions
-  function setupLogin() {
-    const form = document.getElementById('loginForm');
-    const mobileInput = document.getElementById('mobile-number');
-    const validIcon = document.getElementById('phone-valid-icon');
-    const otpBtn = document.getElementById('otp-btn');
-    const otpBtnText = document.getElementById('otp-btn-text');
-    const googleBtn = document.getElementById('googleLoginBtn');
-    const appleBtn = document.getElementById('appleLoginBtn');
+  // ==========================================================================
+  // DEMO PHONE OTP AUTHENTICATION & SUPABASE BOUNDARY
+  // ==========================================================================
+  /**
+   * SUPABASE ARCHITECTURAL BOUNDARY:
+   * 
+   * CURRENT STATUS: Explicit Demo-Only Flow
+   * - Used for friends & evaluators to preview and test the complete application.
+   * - Accepts any 10-digit mobile number; validates with fixed demo OTP '123456'.
+   * - Explicitly states to the user that no SMS is sent.
+   * - Stores session in browser localStorage under 'jolty_demo_session'.
+   * - No fabricated Supabase URLs, keys, or fake client tokens are exposed.
+   * 
+   * PRODUCTION SUPABASE PHONE OTP INTEGRATION BLUEPRINT:
+   * When deploying to production with live SMS gateways:
+   * 1. Initialize Supabase Auth client with valid environment variables:
+   *    import { createClient } from '@supabase/supabase-js';
+   *    const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+   * 
+   * 2. Replace handleSendOtp():
+   *    const { data, error } = await supabase.auth.signInWithOtp({
+   *      phone: '+91' + phoneNumber,
+   *      options: { channel: 'sms' }
+   *    });
+   * 
+   * 3. Replace handleVerifyOtp():
+   *    const { data: { session }, error } = await supabase.auth.verifyOtp({
+   *      phone: '+91' + phoneNumber,
+   *      token: enteredOtp,
+   *      type: 'sms'
+   *    });
+   * 
+   * 4. Session Persistence & Listener:
+   *    supabase.auth.onAuthStateChange((event, session) => {
+   *      AppState.user.isLoggedIn = !!session;
+   *      if (session) {
+   *        AppState.user.phone = session.user.phone;
+   *      }
+   *      syncAuthStateUI();
+   *    });
+   */
 
-    if (mobileInput && validIcon) {
+  function setupDemoAuth() {
+    const mobileInput = document.getElementById('authMobileInput');
+    const nameInput = document.getElementById('authUserNameInput');
+    const phoneValidIcon = document.getElementById('authPhoneValidIcon');
+    const sendOtpBtn = document.getElementById('authSendOtpBtn');
+    const sendOtpBtnText = document.getElementById('authSendOtpBtnText');
+    const phoneError = document.getElementById('authPhoneError');
+    const phoneErrorText = document.getElementById('authPhoneErrorText');
+
+    const stepPhone = document.getElementById('authStepPhone');
+    const stepOtp = document.getElementById('authStepOtp');
+    const targetPhoneText = document.getElementById('authTargetPhoneText');
+
+    const otpInput = document.getElementById('authOtpInput');
+    const otpError = document.getElementById('authOtpError');
+    const otpErrorText = document.getElementById('authOtpErrorText');
+    const verifyOtpBtn = document.getElementById('authVerifyOtpBtn');
+    const verifyOtpBtnText = document.getElementById('authVerifyOtpBtnText');
+    const autoFillBtn = document.getElementById('authAutoFillOtpBtn');
+    const backToPhoneBtn = document.getElementById('authBackToPhoneBtn');
+    const quickDemoBtn = document.getElementById('authQuickDemoBtn');
+    const bannerSignOutBtn = document.getElementById('bannerSignOutBtn');
+
+    // Phone input typing & formatting
+    if (mobileInput) {
       mobileInput.addEventListener('input', () => {
         mobileInput.value = mobileInput.value.replace(/[^0-9]/g, '');
+        if (phoneError) phoneError.classList.add('hidden');
         if (mobileInput.value.length === 10) {
-          validIcon.classList.remove('hidden');
+          if (phoneValidIcon) phoneValidIcon.classList.remove('hidden');
         } else {
-          validIcon.classList.add('hidden');
+          if (phoneValidIcon) phoneValidIcon.classList.add('hidden');
+        }
+      });
+
+      mobileInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (sendOtpBtn) sendOtpBtn.click();
         }
       });
     }
 
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (!mobileInput || mobileInput.value.length < 10) {
-          showToast('Please enter a valid 10-digit mobile number', 'error');
+    // Step 1: Send OTP Action
+    if (sendOtpBtn) {
+      sendOtpBtn.addEventListener('click', () => {
+        const phone = mobileInput ? mobileInput.value.trim() : '';
+        if (phone.length < 10) {
+          if (phoneError && phoneErrorText) {
+            phoneErrorText.textContent = 'Please enter a valid 10-digit Indian mobile number.';
+            phoneError.classList.remove('hidden');
+          }
           if (mobileInput) mobileInput.focus();
           return;
         }
 
-        otpBtn.disabled = true;
-        otpBtnText.textContent = 'Sending OTP...';
-        otpBtn.classList.add('opacity-80');
+        const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Aarav Sharma';
+        AppState.tempAuthData = { phone: `+91 ${phone}`, name: name };
+
+        // Button feedback
+        sendOtpBtn.disabled = true;
+        if (sendOtpBtnText) sendOtpBtnText.textContent = 'Generating test code...';
+        sendOtpBtn.classList.add('opacity-80');
 
         setTimeout(() => {
-          otpBtnText.textContent = 'OTP Sent!';
-          otpBtn.classList.remove('bg-jolty-amber');
-          otpBtn.classList.add('bg-jolty-green', 'text-white');
+          sendOtpBtn.disabled = false;
+          sendOtpBtn.classList.remove('opacity-80');
+          if (sendOtpBtnText) sendOtpBtnText.textContent = 'Continue with Phone';
 
-          setTimeout(() => {
-            AppState.user.isLoggedIn = true;
-            AppState.user.phone = mobileInput.value.length === 10 ? `+91 ${mobileInput.value}` : mobileInput.value;
-            AppState.user.name = 'Aarav Sharma';
-            showToast('Phone verified! Signed in successfully.', 'check_circle');
+          if (stepPhone) stepPhone.classList.add('hidden');
+          if (stepOtp) stepOtp.classList.remove('hidden');
+          if (targetPhoneText) targetPhoneText.textContent = AppState.tempAuthData.phone;
+          if (otpInput) {
+            otpInput.value = '';
+            otpInput.focus();
+          }
+          if (otpError) otpError.classList.add('hidden');
 
-            // Return to profile screen or previous route
-            const dest = AppState.previousRoute === 'login' ? 'profile' : AppState.previousRoute;
-            navigateTo(dest);
-
-            otpBtn.disabled = false;
-            otpBtn.classList.remove('opacity-80', 'bg-jolty-green', 'text-white');
-            otpBtn.classList.add('bg-jolty-amber', 'text-jolty-ink');
-            otpBtnText.textContent = 'Send OTP';
-          }, 900);
-        }, 700);
+          showToast('Demo OTP is 123456 (No SMS sent)', 'key', 4000);
+        }, 350);
       });
     }
 
-    function handleSocial(provider) {
-      showToast(`Connecting with ${provider}...`, 'sync');
-      setTimeout(() => {
-        AppState.user.isLoggedIn = true;
-        AppState.user.name = 'Aarav Sharma';
-        showToast(`Connected with ${provider}. Welcome back!`, 'check_circle');
-        const dest = AppState.previousRoute === 'login' ? 'profile' : AppState.previousRoute;
-        navigateTo(dest);
-      }, 800);
+    // Auto-fill OTP button
+    if (autoFillBtn && otpInput) {
+      autoFillBtn.addEventListener('click', () => {
+        otpInput.value = '123456';
+        if (otpError) otpError.classList.add('hidden');
+        otpInput.focus();
+        showToast('Demo code 123456 filled', 'magic_button', 2000);
+      });
     }
 
-    if (googleBtn) googleBtn.addEventListener('click', () => handleSocial('Google'));
-    if (appleBtn) appleBtn.addEventListener('click', () => handleSocial('Apple'));
+    // Step 2: Verify OTP Action
+    if (verifyOtpBtn) {
+      verifyOtpBtn.addEventListener('click', () => {
+        const code = otpInput ? otpInput.value.trim() : '';
+        if (code !== '123456') {
+          if (otpError && otpErrorText) {
+            otpErrorText.textContent = 'Incorrect test OTP. Enter fixed demo code 123456.';
+            otpError.classList.remove('hidden');
+          }
+          if (otpInput) {
+            otpInput.focus();
+            otpInput.select();
+          }
+          return;
+        }
+
+        // Correct fixed OTP (123456)
+        verifyOtpBtn.disabled = true;
+        if (verifyOtpBtnText) verifyOtpBtnText.textContent = 'Verifying...';
+
+        setTimeout(() => {
+          verifyOtpBtn.disabled = false;
+          if (verifyOtpBtnText) verifyOtpBtnText.textContent = 'Verify & Enter Jolty';
+
+          const authData = AppState.tempAuthData || {
+            phone: mobileInput && mobileInput.value.length === 10 ? `+91 ${mobileInput.value}` : '+91 98765 43210',
+            name: nameInput && nameInput.value.trim() ? nameInput.value.trim() : 'Aarav Sharma'
+          };
+
+          saveDemoSession(authData.phone, authData.name);
+          syncAuthStateUI();
+          showToast(`Welcome to Jolty, ${authData.name}!`, 'check_circle', 3500);
+          navigateTo('home');
+        }, 350);
+      });
+    }
+
+    // Enter key in OTP input
+    if (otpInput) {
+      otpInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (verifyOtpBtn) verifyOtpBtn.click();
+        }
+      });
+    }
+
+    // Back to phone button
+    if (backToPhoneBtn) {
+      backToPhoneBtn.addEventListener('click', () => {
+        if (stepOtp) stepOtp.classList.add('hidden');
+        if (stepPhone) stepPhone.classList.remove('hidden');
+        if (mobileInput) mobileInput.focus();
+      });
+    }
+
+    // Quick 1-Click Test Login
+    if (quickDemoBtn) {
+      quickDemoBtn.addEventListener('click', () => {
+        const testName = 'Aarav Sharma';
+        const testPhone = '+91 98765 43210';
+        saveDemoSession(testPhone, testName);
+        syncAuthStateUI();
+        showToast('Signed in as Aarav Sharma (Demo Session)', 'bolt', 3000);
+        navigateTo('home');
+      });
+    }
+
+    // Banner Sign Out Button
+    if (bannerSignOutBtn) {
+      bannerSignOutBtn.addEventListener('click', () => {
+        performLogout();
+      });
+    }
+
+    // Social login simulation in auth card
+    const googleBtn = document.getElementById('authSocialGoogle');
+    const appleBtn = document.getElementById('authSocialApple');
+
+    function simulateSocial(provider) {
+      showToast(`Connecting test account via ${provider}...`, 'sync', 2000);
+      setTimeout(() => {
+        saveDemoSession('+91 98765 43210', `Aarav Sharma (${provider})`);
+        syncAuthStateUI();
+        showToast(`Signed in with ${provider} (Demo)`, 'check_circle', 3000);
+        navigateTo('home');
+      }, 500);
+    }
+
+    if (googleBtn) googleBtn.addEventListener('click', () => simulateSocial('Google'));
+    if (appleBtn) appleBtn.addEventListener('click', () => simulateSocial('Apple'));
   }
 
   // App Initialization
   function init() {
+    // 1. Check existing demo session from localStorage
+    loadDemoSession();
+
+    // 2. Setup all UI controllers
+    setupDemoAuth();
     setupAddressSynchronization();
     setupGpsDetection();
     setupAddressModal();
     setupBookingModal();
     setupMechanicsView();
     setupLiveTracking();
-    setupLogin();
     setupUserMenu();
 
-    // Listen to hash change for back/forward navigation
+    // 3. Sync initial visual state (auth gate vs app)
+    syncAuthStateUI();
+
+    // 4. Listen to hash change for back/forward navigation
     window.addEventListener('hashchange', () => {
       const hash = window.location.hash.replace('#', '') || 'home';
       navigateTo(hash);
     });
 
-    // Initial Route Check
-    const initialHash = window.location.hash.replace('#', '') || 'home';
-    navigateTo(initialHash);
+    // 5. Initial Route Check if logged in
+    if (AppState.user.isLoggedIn) {
+      const initialHash = window.location.hash.replace('#', '') || 'home';
+      navigateTo(initialHash);
+    }
   }
 
   // Run on DOM ready

@@ -271,3 +271,27 @@ input:focus-visible {
   transform: translateY(0) scale(1);
   pointer-events: auto;
 }
+
+/* Auth Gate & Demo OTP Styles */
+#authGateContainer {
+  transition: opacity 0.25s ease-in-out;
+}
+
+#authGateContainer.hidden {
+  display: none !important;
+}
+
+#appContainer.hidden {
+  display: none !important;
+}
+
+.demo-mode-pill {
+  background: linear-gradient(90deg, #FFF9E6 0%, #FFF3D6 100%);
+  border-bottom: 1.5px solid #FFD875;
+}
+
+.otp-digit-input {
+  letter-spacing: 0.35em;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
