@@ -92,6 +92,19 @@ The interface was rebuilt from scratch following **Google Stitch Project `927987
 * Progressive OTP button states (*"Send OTP" → "Sending OTP..." → "OTP Sent!" → "Verify & Proceed"*).
 * Social identity buttons for Google and Apple sign-in.
 
+### 7. Customer Profile & Dynamic Header Menu (`#profile`)
+* **Stitch Screen Match (`142468625d1c494a94011369f98aea1d`)**:
+  * **Decorative Truck Art & Jaali Lattice SVG Watermark**: Subtle highway vernacular ornamental backdrops.
+  * **Jolty Gold Sentinel & Bio**: Aarav Sharma (`+91 98765 43210`), verified status, Gurugram HR, and NH-48 Express Club active milestone bar.
+  * **Assistance History**: 3 quick metrics (8 Total Rescues, 11 min Avg Response, ₹3.4k App Savings) plus completed service history log.
+  * **Registered Garage**: Primary Hyundai Creta SX (O) Turbo Petrol (`DL 01 AB 7890`) with live 24/7 RSA cover & FASTag integration, alongside Royal Enfield Classic 350 (`HR 26 DQ 4311`).
+  * **Jolty Highway Sentinel ICE**: Emergency contact card with one-touch dialing for Pooja Sharma (`+91 98112 34567`).
+  * **Preferences & Trips**: Saved stretches, UPI methods (`aarav@okhdfcbank`), language selection, and interactive NH Traffic & Fog Alerts toggle.
+* **Dynamic Header Profile Dropdown**:
+  * **When on Home Screen (`#home`)**: Options display **View Profile** (`#profile`) and **Log Out**.
+  * **When on Profile Screen (`#profile`)**: Options display **Go to Home** (`#home`) and **Log Out**.
+  * **Prominent In-Page Log Out Button**: Clears authentication state, updates the header, shows a toast notification, and routes the user safely to the home view.
+
 ---
 
 ## ⚖️ Pricing Policy & Rules

@@ -31,8 +31,10 @@
       createdAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
     user: {
-      phone: '',
-      isLoggedIn: false
+      name: 'Aarav Sharma',
+      phone: '+91 98765 43210',
+      vehicle: 'DL 01 AB 7890 (Hyundai Creta)',
+      isLoggedIn: true
     },
     viewMode: 'list' // 'list' | 'map'
   };
@@ -65,7 +67,7 @@
     if (route === 'services') route = 'mechanics';
     if (route === 'about' || route === 'process') route = 'home';
 
-    const validRoutes = ['home', 'mechanics', 'tracking', 'login'];
+    const validRoutes = ['home', 'mechanics', 'tracking', 'login', 'profile'];
     if (!validRoutes.includes(route)) {
       route = 'home';
     }
@@ -101,6 +103,12 @@
     // Update Header Context
     updateHeaderUI(route);
 
+    // If dropdown is open, refresh its dynamic items
+    const menu = document.getElementById('userDropdownMenu');
+    if (menu && menu.classList.contains('open')) {
+      renderUserDropdownItems();
+    }
+
     // Scroll to top cleanly
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -111,13 +119,17 @@
   }
 
   function updateHeaderUI(route) {
-    const locationChip = document.getElementById('headerLocationChip');
     const headerHelpBtn = document.getElementById('headerHelpBtn');
     const headerUserIcon = document.getElementById('headerUserIcon');
 
-    if (AppState.user.isLoggedIn && headerUserIcon) {
-      headerUserIcon.textContent = 'account_circle';
-      headerUserIcon.classList.add('text-jolty-green');
+    if (headerUserIcon) {
+      if (AppState.user.isLoggedIn) {
+        headerUserIcon.textContent = 'account_circle';
+        headerUserIcon.classList.add('text-jolty-green');
+      } else {
+        headerUserIcon.textContent = 'person';
+        headerUserIcon.classList.remove('text-jolty-green');
+      }
     }
 
     if (route === 'tracking') {
@@ -130,6 +142,230 @@
         headerHelpBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] mr-1">emergency</span><span>Get Help</span>';
         headerHelpBtn.href = '#mechanics';
       }
+    }
+  }
+
+  // Dynamic Header User Dropdown Controller
+  function renderUserDropdownItems() {
+    const container = document.getElementById('userDropdownItems');
+    const summaryCard = document.getElementById('dropdownUserSummary');
+    const userName = document.getElementById('dropdownUserName');
+    const userPhone = document.getElementById('dropdownUserPhone');
+
+    if (!container) return;
+
+    if (AppState.user.isLoggedIn) {
+      if (userName) userName.textContent = AppState.user.name || 'Aarav Sharma';
+      if (userPhone) userPhone.textContent = AppState.user.phone || '+91 98765 43210';
+      if (summaryCard) summaryCard.style.display = 'flex';
+    } else {
+      if (userName) userName.textContent = 'Guest Traveler';
+      if (userPhone) userPhone.textContent = 'Not signed in';
+    }
+
+    const isHome = AppState.currentRoute === 'home';
+    const isProfile = AppState.currentRoute === 'profile';
+
+    let html = '';
+
+    if (AppState.user.isLoggedIn) {
+      if (isHome) {
+        // When in home screen: options are View Profile and Log Out
+        html += `
+          <a href="#profile" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">person</span>
+            <span class="font-semibold text-[14px]">View Profile</span>
+          </a>
+          <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-error">logout</span>
+            <span class="font-semibold text-[14px]">Log Out</span>
+          </button>
+        `;
+      } else if (isProfile) {
+        // When in profile screen: options are Go to Home or Log Out
+        html += `
+          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">home</span>
+            <span class="font-semibold text-[14px]">Go to Home</span>
+          </a>
+          <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-error">logout</span>
+            <span class="font-semibold text-[14px]">Log Out</span>
+          </button>
+        `;
+      } else {
+        // Any other screen (e.g. mechanics, tracking, login)
+        html += `
+          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">home</span>
+            <span class="font-semibold text-[14px]">Go to Home</span>
+          </a>
+          <a href="#profile" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+            <span class="font-semibold text-[14px]">View Profile</span>
+          </a>
+          <button type="button" id="dropdownLogoutBtn" class="dropdown-nav-item flex items-center gap-2.5 w-full text-left px-3 py-2.5 rounded-xl text-error hover:bg-error-container/40 font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-error">logout</span>
+            <span class="font-semibold text-[14px]">Log Out</span>
+          </button>
+        `;
+      }
+    } else {
+      // Logged out / guest traveler state
+      if (isProfile) {
+        html += `
+          <a href="#home" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-jolty-amber">home</span>
+            <span class="font-semibold text-[14px]">Go to Home</span>
+          </a>
+          <a href="#login" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-primary font-bold hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px]">login</span>
+            <span class="font-semibold text-[14px]">Sign In / Register</span>
+          </a>
+        `;
+      } else {
+        html += `
+          <a href="#profile" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-jolty-ink hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px] text-primary">person</span>
+            <span class="font-semibold text-[14px]">View Profile</span>
+          </a>
+          <a href="#login" class="dropdown-nav-item flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-primary font-bold hover:bg-jolty-cream font-label-md transition-colors" role="menuitem">
+            <span class="material-symbols-outlined text-[20px]">login</span>
+            <span class="font-semibold text-[14px]">Sign In / Register</span>
+          </a>
+        `;
+      }
+    }
+
+    container.innerHTML = html;
+
+    // Attach click listener to logout action in dropdown
+    const logoutBtn = document.getElementById('dropdownLogoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeUserMenu();
+        performLogout();
+      });
+    }
+
+    // Attach click listeners to links to close menu on selection
+    const links = container.querySelectorAll('a.dropdown-nav-item');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        closeUserMenu();
+      });
+    });
+  }
+
+  function closeUserMenu() {
+    const menu = document.getElementById('userDropdownMenu');
+    const btn = document.getElementById('headerUserBtn');
+    if (menu) menu.classList.remove('open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleUserMenu() {
+    const menu = document.getElementById('userDropdownMenu');
+    const btn = document.getElementById('headerUserBtn');
+    if (!menu) return;
+
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+      closeUserMenu();
+    } else {
+      renderUserDropdownItems();
+      menu.classList.add('open');
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  function setupUserMenu() {
+    const btn = document.getElementById('headerUserBtn');
+    const wrapper = document.getElementById('userMenuWrapper');
+
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleUserMenu();
+      });
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (wrapper && !wrapper.contains(e.target)) {
+        closeUserMenu();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeUserMenu();
+      }
+    });
+
+    // Initialize Profile screen listeners
+    setupProfileScreen();
+  }
+
+  function performLogout() {
+    AppState.user.isLoggedIn = false;
+    showToast('Logged out of Jolty', 'logout');
+    updateHeaderUI(AppState.currentRoute);
+    if (AppState.currentRoute === 'profile') {
+      navigateTo('home');
+    }
+  }
+
+  function setupProfileScreen() {
+    // In-page Logout button on profile screen
+    const profileLogoutBtn = document.getElementById('profileLogoutBtn');
+    if (profileLogoutBtn) {
+      profileLogoutBtn.addEventListener('click', () => {
+        performLogout();
+      });
+    }
+
+    // Interactive preferences & vehicles
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    if (editProfileBtn) {
+      editProfileBtn.addEventListener('click', () => {
+        showToast('Profile editing enabled for Aarav Sharma', 'edit');
+      });
+    }
+
+    const addVehicleBtn = document.getElementById('addVehicleBtn');
+    if (addVehicleBtn) {
+      addVehicleBtn.addEventListener('click', () => {
+        showToast('Opening vehicle registration portal...', 'add_circle');
+      });
+    }
+
+    const manageVehicleBtn = document.getElementById('manageVehicleBtn');
+    if (manageVehicleBtn) {
+      manageVehicleBtn.addEventListener('click', () => {
+        showToast('FASTag & Vehicle settings: Active DL 01 AB 7890', 'tune');
+      });
+    }
+
+    const fogAlertsToggle = document.getElementById('fogAlertsToggle');
+    if (fogAlertsToggle) {
+      fogAlertsToggle.addEventListener('change', () => {
+        if (fogAlertsToggle.checked) {
+          showToast('Highway breakdown & fog alerts turned ON', 'notifications_active');
+        } else {
+          showToast('Highway breakdown alerts paused', 'notifications_off');
+        }
+      });
+    }
+
+    const prefPayment = document.getElementById('prefPayment');
+    if (prefPayment) {
+      prefPayment.addEventListener('click', () => {
+        showToast('UPI: aarav@okhdfcbank • ₹450 Wallet Credits', 'account_balance_wallet');
+      });
     }
   }
 
@@ -615,11 +851,12 @@
 
           setTimeout(() => {
             AppState.user.isLoggedIn = true;
-            AppState.user.phone = mobileInput.value;
+            AppState.user.phone = mobileInput.value.length === 10 ? `+91 ${mobileInput.value}` : mobileInput.value;
+            AppState.user.name = 'Aarav Sharma';
             showToast('Phone verified! Signed in successfully.', 'check_circle');
 
-            // Return to previous screen or home
-            const dest = AppState.previousRoute === 'login' ? 'home' : AppState.previousRoute;
+            // Return to profile screen or previous route
+            const dest = AppState.previousRoute === 'login' ? 'profile' : AppState.previousRoute;
             navigateTo(dest);
 
             otpBtn.disabled = false;
@@ -635,8 +872,9 @@
       showToast(`Connecting with ${provider}...`, 'sync');
       setTimeout(() => {
         AppState.user.isLoggedIn = true;
+        AppState.user.name = 'Aarav Sharma';
         showToast(`Connected with ${provider}. Welcome back!`, 'check_circle');
-        const dest = AppState.previousRoute === 'login' ? 'home' : AppState.previousRoute;
+        const dest = AppState.previousRoute === 'login' ? 'profile' : AppState.previousRoute;
         navigateTo(dest);
       }, 800);
     }
@@ -654,6 +892,7 @@
     setupMechanicsView();
     setupLiveTracking();
     setupLogin();
+    setupUserMenu();
 
     // Listen to hash change for back/forward navigation
     window.addEventListener('hashchange', () => {

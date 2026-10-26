@@ -162,10 +162,50 @@
           <span>Get Help</span>
         </a>
 
-        <!-- User Profile / Login Link -->
-        <a href="#login" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high border border-jolty-line flex items-center justify-center shrink-0 text-jolty-ink transition-transform active:scale-95" aria-label="Sign In or Account">
-          <span class="material-symbols-outlined text-[20px]" id="headerUserIcon">person</span>
-        </a>
+        <!-- User Profile Dropdown Menu Wrapper -->
+        <div class="relative" id="userMenuWrapper">
+          <button 
+            type="button" 
+            id="headerUserBtn" 
+            class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high border border-jolty-line flex items-center justify-center shrink-0 text-jolty-ink transition-transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-jolty-amber" 
+            aria-label="User Account and Options" 
+            aria-haspopup="menu"
+            aria-expanded="false"
+          >
+            <span class="material-symbols-outlined text-[20px]" id="headerUserIcon">person</span>
+          </button>
+
+          <!-- User Dynamic Dropdown Menu -->
+          <div 
+            id="userDropdownMenu" 
+            class="user-dropdown-panel absolute right-0 mt-2 w-64 rounded-2xl bg-jolty-paper border border-jolty-line shadow-[0_12px_36px_rgba(17,19,21,0.12)] p-2 z-50"
+            role="menu"
+            aria-orientation="vertical"
+          >
+            <!-- User Mini Badge Header -->
+            <div class="px-3 py-2.5 mb-1 border-b border-jolty-line/70 flex items-center gap-3" id="dropdownUserSummary">
+              <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container flex items-center justify-center shrink-0 border border-jolty-amber/40 shadow-sm">
+                <img 
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaWz8YONYnCscpPl5BuqoMSNGNSM7coBN1B1zcStcGQYnAz5_TWhc4S7Ds8u2dNdJEqApWUpo0MUlUxoWrXM55_LPfTE-6V5oBQbyHK0i0OGMcESUYbloZC58jGVvnU2Hdy5P3BZ10CwmsrDLgWS0aEocCskbQbxQZ7TIOu092N7qBd_QoJvSMOWBJEg1s7r_YlbmEki3LKYjl06Q3m1-GSQo23QPyClEpiJC9V-g" 
+                  alt="Aarav Sharma" 
+                  class="w-full h-full object-cover"
+                >
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1">
+                  <span class="font-label-md font-bold text-jolty-ink truncate" id="dropdownUserName">Aarav Sharma</span>
+                  <span class="material-symbols-outlined text-jolty-green text-[14px]">verified</span>
+                </div>
+                <div class="font-body-sm text-[11px] text-jolty-muted truncate" id="dropdownUserPhone">+91 98765 43210</div>
+              </div>
+            </div>
+
+            <!-- Dynamic Menu Action Items Container -->
+            <div id="userDropdownItems" class="flex flex-col gap-1">
+              <!-- Dynamically populated in js/app.js based on current route -->
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -1498,6 +1538,347 @@
       </div>
     </section>
 
+    <!-- ======================================================================
+         SCREEN 5: CUSTOMER PROFILE (Matches Stitch Screen 142468625d1c494a94011369f98aea1d)
+         ====================================================================== -->
+    <section class="screen-view" id="screen-profile" aria-labelledby="profileHeadline">
+      <div class="flex flex-col w-full max-w-2xl mx-auto px-margin-mobile pb-28 pt-4">
+
+        <!-- Subtle Ornamental Highway Motif Background Watermark -->
+        <div class="relative w-full mb-6 space-y-4">
+          <!-- Profile Header Card with Jaali Motif & Verified Badge -->
+          <div class="relative w-full rounded-2xl bg-jolty-paper p-5 shadow-[0_8px_30px_rgba(17,19,21,0.04)] overflow-hidden border border-jolty-line/60">
+            <!-- Decorative Indian Truck Art / Jaali Lattice SVG Watermark -->
+            <div class="absolute -top-10 -right-10 w-44 h-44 opacity-[0.08] pointer-events-none text-jolty-amber">
+              <svg class="w-full h-full" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="80" stroke-dasharray="4 4"></circle>
+                <circle cx="100" cy="100" r="50"></circle>
+                <path d="M100 10 L100 190 M10 100 L190 100 M36 36 L164 164 M36 164 L164 36"></path>
+                <polygon fill="currentColor" fill-opacity="0.15" points="100,20 120,60 160,60 130,90 145,130 100,105 55,130 70,90 40,60 80,60"></polygon>
+              </svg>
+            </div>
+
+            <!-- Header actions bar -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-jolty-amber/15 text-jolty-ink">
+                <span class="material-symbols-outlined text-[15px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">stars</span>
+                <span class="font-label-sm text-label-sm tracking-wide font-bold">Jolty Gold Sentinel</span>
+              </div>
+              <button class="flex items-center justify-center w-9 h-9 rounded-full bg-jolty-cream hover:bg-surface-container active:scale-95 transition-all text-jolty-ink" type="button" id="editProfileBtn" title="Edit Profile Details">
+                <span class="material-symbols-outlined text-[19px]">edit</span>
+              </button>
+            </div>
+
+            <!-- Avatar & Essential Bio -->
+            <div class="flex items-center gap-4">
+              <div class="relative shrink-0">
+                <div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container flex items-center justify-center shadow-inner border-2 border-jolty-paper">
+                  <img class="w-full h-full object-cover" alt="Portrait of Aarav Sharma" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaWz8YONYnCscpPl5BuqoMSNGNSM7coBN1B1zcStcGQYnAz5_TWhc4S7Ds8u2dNdJEqApWUpo0MUlUxoWrXM55_LPfTE-6V5oBQbyHK0i0OGMcESUYbloZC58jGVvnU2Hdy5P3BZ10CwmsrDLgWS0aEocCskbQbxQZ7TIOu092N7qBd_QoJvSMOWBJEg1s7r_YlbmEki3LKYjl06Q3m1-GSQo23QPyClEpiJC9V-g">
+                </div>
+                <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-jolty-green text-white flex items-center justify-center shadow-md" title="Verified Member">
+                  <span class="material-symbols-outlined text-[14px] font-bold">verified</span>
+                </span>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5">
+                  <h1 class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile font-bold text-jolty-ink truncate" id="profileHeadline">Aarav Sharma</h1>
+                </div>
+                <p class="font-body-sm text-body-sm text-jolty-muted flex items-center gap-1.5 mt-0.5">
+                  <span id="profilePhoneDisplay">+91 98765 43210</span>
+                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-jolty-green"></span>
+                  <span class="text-jolty-green font-medium text-[11px]">Verified</span>
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="font-label-sm text-label-sm text-jolty-muted flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">location_on</span>
+                    Gurugram, HR
+                  </span>
+                  <span class="text-jolty-line">•</span>
+                  <span class="font-label-sm text-label-sm text-jolty-muted">Member since '23</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Milestone Road Ornament Bar -->
+            <div class="mt-4 pt-3 flex items-center justify-between text-jolty-muted border-t-0 bg-jolty-cream/70 rounded-xl px-3.5 py-2.5">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="material-symbols-outlined text-jolty-amber text-[20px]" style="font-variation-settings: 'FILL' 1;">signpost</span>
+                <span class="font-label-sm text-label-sm text-jolty-ink truncate font-medium">NH-48 Express Club Member</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-md bg-jolty-paper text-jolty-green font-label-sm text-[11px] font-semibold tracking-wider border border-jolty-line/60">ACTIVE</span>
+            </div>
+          </div>
+
+          <!-- Service Statistics & Lifetime Shield Grid -->
+          <div>
+            <div class="flex items-center justify-between px-1 mb-2.5">
+              <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink">Assistance History</h2>
+              <a class="font-label-sm text-label-sm font-semibold text-primary flex items-center gap-0.5 hover:underline" href="#mechanics">
+                <span>Log Details</span>
+                <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+              </a>
+            </div>
+            <!-- 3-Column Quick Metrics -->
+            <div class="grid grid-cols-3 gap-2.5">
+              <div class="bg-jolty-paper rounded-2xl p-3.5 flex flex-col justify-between shadow-[0_4px_16px_rgba(17,19,21,0.03)] border border-jolty-line/60">
+                <div class="w-8 h-8 rounded-xl bg-jolty-cream flex items-center justify-center text-jolty-ink mb-2">
+                  <span class="material-symbols-outlined text-[18px]">car_repair</span>
+                </div>
+                <div>
+                  <div class="font-headline-md-mobile text-headline-md-mobile font-extrabold text-jolty-ink">8</div>
+                  <div class="font-label-sm text-label-sm text-jolty-muted leading-tight mt-0.5">Total Rescues</div>
+                </div>
+              </div>
+              <div class="bg-jolty-paper rounded-2xl p-3.5 flex flex-col justify-between shadow-[0_4px_16px_rgba(17,19,21,0.03)] border border-jolty-line/60">
+                <div class="w-8 h-8 rounded-xl bg-jolty-cream flex items-center justify-center text-jolty-green mb-2">
+                  <span class="material-symbols-outlined text-[18px]">timer</span>
+                </div>
+                <div>
+                  <div class="font-headline-md-mobile text-headline-md-mobile font-extrabold text-jolty-ink">11<span class="text-label-sm font-medium ml-0.5">min</span></div>
+                  <div class="font-label-sm text-label-sm text-jolty-muted leading-tight mt-0.5">Avg Response</div>
+                </div>
+              </div>
+              <div class="bg-jolty-paper rounded-2xl p-3.5 flex flex-col justify-between shadow-[0_4px_16px_rgba(17,19,21,0.03)] border border-jolty-line/60">
+                <div class="w-8 h-8 rounded-xl bg-jolty-cream flex items-center justify-center text-primary-container mb-2">
+                  <span class="material-symbols-outlined text-[18px] text-jolty-ink">savings</span>
+                </div>
+                <div>
+                  <div class="font-headline-md-mobile text-headline-md-mobile font-extrabold text-jolty-ink">₹3.4k</div>
+                  <div class="font-label-sm text-label-sm text-jolty-muted leading-tight mt-0.5">App Savings</div>
+                </div>
+              </div>
+            </div>
+            <!-- Recent Service Highlight Snippet -->
+            <div class="mt-2.5 bg-jolty-paper rounded-2xl p-3.5 flex items-center justify-between shadow-[0_4px_16px_rgba(17,19,21,0.03)] border border-jolty-line/60">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center shrink-0 text-jolty-ink">
+                  <span class="material-symbols-outlined text-[20px]">tire_repair</span>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2">
+                    <span class="font-label-md text-label-md font-bold text-jolty-ink truncate">Flat Tyre Fix (NH-48)</span>
+                    <span class="px-2 py-0.5 rounded-full bg-jolty-green/10 text-jolty-green text-[10px] font-bold uppercase tracking-wider">Completed</span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-jolty-muted truncate mt-0.5">12 Feb 2025 • Manesar Toll • Mechanic Suresh K.</p>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-jolty-muted text-[18px]">receipt_long</span>
+            </div>
+          </div>
+
+          <!-- Registered Vehicles (Garage) Section -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between px-1">
+              <div>
+                <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink">Registered Garage</h2>
+                <p class="font-body-sm text-body-sm text-jolty-muted">2 Vehicles covered with Jolty RSA</p>
+              </div>
+              <button class="min-h-[40px] px-3.5 py-1.5 rounded-full bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-sm text-label-sm font-semibold flex items-center gap-1 active:scale-95 transition-all shadow-[0_2px_8px_rgba(255,184,0,0.25)]" type="button" id="addVehicleBtn">
+                <span class="material-symbols-outlined text-[16px]">add</span>
+                <span>Add</span>
+              </button>
+            </div>
+            <!-- Primary Vehicle Card: Hyundai Creta -->
+            <div class="bg-jolty-paper rounded-2xl p-4 shadow-[0_8px_24px_rgba(17,19,21,0.04)] relative overflow-hidden border border-jolty-line/60">
+              <!-- Truck Art Watermark -->
+              <div class="absolute -right-4 -bottom-4 w-28 h-28 opacity-[0.06] text-jolty-amber pointer-events-none">
+                <svg fill="currentColor" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="6"></circle>
+                  <path d="M50 0 L55 35 L90 50 L55 65 L50 100 L45 65 L10 50 L45 35 Z"></path>
+                </svg>
+              </div>
+              <div class="flex items-start justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-jolty-cream flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-jolty-ink text-[26px]">directions_car</span>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Hyundai Creta SX (O)</h3>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-jolty-muted">Turbo Petrol • 2023 Edition</p>
+                  </div>
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-jolty-amber/20 text-jolty-ink font-label-sm text-[11px] font-bold tracking-wide">
+                  Primary
+                </span>
+              </div>
+              <!-- License Plate and FastTag Strip -->
+              <div class="mt-4 pt-3 flex flex-wrap items-center justify-between gap-2 bg-jolty-cream/60 rounded-xl p-3 border border-jolty-line/40">
+                <div class="flex items-center gap-2">
+                  <!-- Indian Number Plate Motif (White with IND badge) -->
+                  <div class="inline-flex items-center bg-jolty-paper px-2.5 py-1 rounded-md shadow-sm border border-jolty-line">
+                    <div class="flex flex-col items-center mr-1.5 pr-1 border-r border-jolty-line">
+                      <span class="text-[7px] font-bold text-jolty-muted tracking-tighter">IND</span>
+                    </div>
+                    <span class="font-mono font-bold text-[13px] tracking-wider text-jolty-ink">DL 01 AB 7890</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 text-jolty-green">
+                  <span class="inline-block w-2 h-2 rounded-full bg-jolty-green animate-pulse"></span>
+                  <span class="font-label-sm text-label-sm font-semibold">24/7 Highway RSA Live</span>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center justify-between text-jolty-muted font-body-sm text-[12px] px-1">
+                <span>FASTag ID: 6014 9821 ****</span>
+                <button type="button" class="text-jolty-ink font-semibold flex items-center gap-0.5 hover:underline" id="manageVehicleBtn">
+                  Manage <span class="material-symbols-outlined text-[14px]">tune</span>
+                </button>
+              </div>
+            </div>
+            <!-- Secondary Vehicle: Royal Enfield -->
+            <div class="bg-jolty-paper rounded-2xl p-4 shadow-[0_8px_24px_rgba(17,19,21,0.04)] border border-jolty-line/60">
+              <div class="flex items-start justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-xl bg-jolty-cream flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-jolty-ink text-[26px]">two_wheeler</span>
+                  </div>
+                  <div>
+                    <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Royal Enfield Classic 350</h3>
+                    <p class="font-body-sm text-body-sm text-jolty-muted">Motorcycle • Stealth Black • 349cc</p>
+                  </div>
+                </div>
+                <button class="text-jolty-muted hover:text-jolty-ink p-1" type="button" aria-label="Vehicle options">
+                  <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                </button>
+              </div>
+              <div class="mt-4 pt-3 flex flex-wrap items-center justify-between gap-2 bg-jolty-cream/60 rounded-xl p-3 border border-jolty-line/40">
+                <div class="inline-flex items-center bg-jolty-paper px-2.5 py-1 rounded-md shadow-sm border border-jolty-line">
+                  <span class="text-[7px] font-bold text-jolty-muted tracking-tighter mr-1">IND</span>
+                  <span class="font-mono font-bold text-[13px] tracking-wider text-jolty-ink">HR 26 DQ 4311</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-jolty-muted font-medium">Standard Cover</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Roadside SOS & Sentinel Emergency Shield -->
+          <div class="rounded-2xl bg-jolty-night text-on-primary p-5 shadow-[0_12px_32px_rgba(16,24,32,0.15)] relative overflow-hidden">
+            <!-- Ambient Glow Behind CTA -->
+            <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-jolty-amber opacity-15 blur-2xl pointer-events-none"></div>
+            <div class="flex items-start justify-between relative z-10">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-jolty-amber/20 flex items-center justify-center text-jolty-amber">
+                  <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+                </div>
+                <div>
+                  <h3 class="font-label-lg text-label-lg font-bold text-jolty-paper">Jolty Highway Sentinel</h3>
+                  <p class="font-body-sm text-body-sm text-surface-variant text-[13px]">Active on 4,200+ km of Indian Expressways</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-jolty-green text-white font-label-sm text-[10px] font-bold">24x7 SOS</span>
+            </div>
+            <!-- Emergency Contact Pill -->
+            <div class="mt-4 p-3 rounded-xl bg-jolty-ink/80 flex items-center justify-between relative z-10 border border-white/10">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="material-symbols-outlined text-jolty-amber text-[20px]">contact_emergency</span>
+                <div class="min-w-0">
+                  <div class="font-label-md text-label-md text-jolty-paper font-semibold truncate">Pooja Sharma (Spouse)</div>
+                  <div class="font-body-sm text-body-sm text-surface-variant text-[12px] truncate">+91 98112 34567 • Primary ICE</div>
+                </div>
+              </div>
+              <a class="w-9 h-9 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center shrink-0 active:scale-95 transition-transform shadow-md" href="tel:+919811234567" title="Call Emergency Contact">
+                <span class="material-symbols-outlined text-[18px]">call</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Preferences & Account Settings List -->
+          <div class="space-y-2">
+            <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink px-1 pt-1">Preferences &amp; Trips</h2>
+            <div class="bg-jolty-paper rounded-2xl shadow-[0_4px_20px_rgba(17,19,21,0.03)] overflow-hidden border border-jolty-line/60">
+              <!-- Item 1: Saved Locations -->
+              <a class="flex items-center justify-between p-4 hover:bg-jolty-cream/50 transition-colors" href="#mechanics" id="prefSavedStretches">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-jolty-cream flex items-center justify-center text-jolty-ink shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">pin_drop</span>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-label-md text-label-md font-semibold text-jolty-ink">Saved Frequent Stretches</div>
+                    <div class="font-body-sm text-body-sm text-jolty-muted truncate">Home (Gurgaon Sec 56), NH-48 Manesar Toll</div>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-jolty-muted text-[20px]">chevron_right</span>
+              </a>
+              <div class="h-px bg-jolty-line/60 mx-4"></div>
+
+              <!-- Item 2: Payment Methods & UPI -->
+              <button type="button" class="flex items-center justify-between p-4 hover:bg-jolty-cream/50 transition-colors w-full text-left" id="prefPayment">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-jolty-cream flex items-center justify-center text-jolty-ink shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-label-md text-label-md font-semibold text-jolty-ink">UPI &amp; Payment Methods</div>
+                    <div class="font-body-sm text-body-sm text-jolty-muted truncate">aarav@okhdfcbank • ₹450 Wallet Credits</div>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-jolty-muted text-[20px]">chevron_right</span>
+              </button>
+              <div class="h-px bg-jolty-line/60 mx-4"></div>
+
+              <!-- Item 3: Language Preference -->
+              <div class="flex items-center justify-between p-4 hover:bg-jolty-cream/50 transition-colors">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-jolty-cream flex items-center justify-center text-jolty-ink shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">translate</span>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-label-md text-label-md font-semibold text-jolty-ink">App Language</div>
+                    <div class="font-body-sm text-body-sm text-jolty-muted">English (India) • हिंदी</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 bg-jolty-cream px-2.5 py-1 rounded-full text-jolty-ink font-label-sm text-[12px] font-medium border border-jolty-line/60">
+                  <span>English</span>
+                  <span class="material-symbols-outlined text-[16px]">expand_more</span>
+                </div>
+              </div>
+              <div class="h-px bg-jolty-line/60 mx-4"></div>
+
+              <!-- Item 4: Highway Broadcast & Notifications -->
+              <div class="flex items-center justify-between p-4 hover:bg-jolty-cream/50 transition-colors">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-jolty-cream flex items-center justify-center text-jolty-ink shrink-0">
+                    <span class="material-symbols-outlined text-[20px]">notifications_active</span>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-label-md text-label-md font-semibold text-jolty-ink">NH Traffic &amp; Fog Alerts</div>
+                    <div class="font-body-sm text-body-sm text-jolty-muted truncate">Real-time highway breakdown warnings</div>
+                  </div>
+                </div>
+                <!-- Toggle switch (active state) -->
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" id="fogAlertsToggle">
+                  <div class="w-11 h-6 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-jolty-paper after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-jolty-amber"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Log Out & Milestone Footer Signature -->
+          <div class="pt-4 flex flex-col items-center space-y-4">
+            <!-- Prominent Stylish Log Out Pill Button -->
+            <button class="w-full min-h-[48px] rounded-full bg-error-container/40 hover:bg-error-container text-error font-label-md text-label-md font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-sm border border-error/20" type="button" id="profileLogoutBtn">
+              <span class="material-symbols-outlined text-[19px]">logout</span>
+              <span>Log Out of Jolty</span>
+            </button>
+            <!-- Highway Milestone Slogan and Version -->
+            <div class="flex flex-col items-center text-center space-y-1 py-1">
+              <div class="inline-flex items-center gap-2 text-jolty-muted font-body-sm text-body-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-jolty-amber"></span>
+                <span class="italic font-medium">"हर सफ़र में साथ" — Har Safar Mein Saath</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-jolty-amber"></span>
+              </div>
+              <p class="font-label-sm text-label-sm text-secondary text-[11px] tracking-wide">
+                Jolty Mobility v2.4.1 (Build 412) • Indian National Highway Assistance Network
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- ======================================================================
@@ -1716,9 +2097,9 @@
         <span class="material-symbols-outlined text-[22px]">handyman</span>
         <span class="font-label-sm text-[11px]">Mechanics</span>
       </a>
-      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#login" data-route="login">
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#profile" data-route="profile">
         <span class="material-symbols-outlined text-[22px]">person</span>
-        <span class="font-label-sm text-[11px]">Account</span>
+        <span class="font-label-sm text-[11px]">Profile</span>
       </a>
     </div>
   </nav>
