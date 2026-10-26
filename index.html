@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+  <meta content="mobile_tab" name="shell-type">
+  <title>Jolty — Roadside Assistance India</title>
+  <meta name="description" content="Jolty connects stranded drivers to nearby verified local mechanics across India. 24/7 emergency roadside assistance on national highways and city roads.">
+
+  <!-- Typography & Icons from Google Fonts matching Stitch -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN matching Stitch configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#171c21",
+            "inverse-surface": "#2c3136",
+            "surface-container-lowest": "#ffffff",
+            "jolty-paper": "#FFFFFF",
+            "inverse-on-surface": "#edf1f8",
+            "jolty-black": "#080A0C",
+            "on-secondary": "#ffffff",
+            "surface-container": "#eaeef5",
+            "on-secondary-fixed-variant": "#454749",
+            "surface-container-highest": "#dee3ea",
+            "primary-fixed-dim": "#ffba20",
+            "secondary-container": "#e2e2e5",
+            "on-tertiary-fixed-variant": "#00522b",
+            "on-tertiary-container": "#005e32",
+            "on-primary-fixed": "#271900",
+            "inverse-primary": "#ffba20",
+            "on-surface-variant": "#514532",
+            "on-surface": "#171c21",
+            "tertiary": "#006d3a",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#94f7b2",
+            "on-secondary-fixed": "#1a1c1e",
+            "secondary-fixed-dim": "#c6c6c9",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#6b4c00",
+            "jolty-night": "#101820",
+            "outline-variant": "#d5c4ab",
+            "jolty-amber": "#FFB800",
+            "on-error-container": "#93000a",
+            "surface-tint": "#7c5800",
+            "background": "#f7f9ff",
+            "secondary-fixed": "#e2e2e5",
+            "surface-dim": "#d6dae1",
+            "secondary": "#5d5e61",
+            "surface-variant": "#dee3ea",
+            "jolty-muted": "#686D73",
+            "surface-container-high": "#e4e8ef",
+            "on-primary-fixed-variant": "#5e4200",
+            "surface-container-low": "#f0f4fb",
+            "outline": "#837560",
+            "on-error": "#ffffff",
+            "primary": "#7c5800",
+            "surface-bright": "#f7f9ff",
+            "tertiary-container": "#77d997",
+            "primary-fixed": "#ffdea8",
+            "jolty-line": "#E8E3DA",
+            "on-secondary-container": "#636467",
+            "error": "#ba1a1a",
+            "primary-container": "#ffb800",
+            "surface": "#f7f9ff",
+            "tertiary-fixed-dim": "#78db98",
+            "on-primary": "#ffffff",
+            "jolty-green": "#16834A",
+            "on-tertiary-fixed": "#00210e",
+            "jolty-ink": "#111315",
+            "jolty-amber-soft": "#FFE7A3",
+            "jolty-cream": "#FAF7F0"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2.5rem",
+            "margin-mobile": "1.25rem",
+            "margin": "2rem",
+            "gutter-mobile": "1rem",
+            "gutter": "1.5rem"
+          },
+          fontFamily: {
+            "display-hero": ["DM Sans", "sans-serif"],
+            "display-hero-mobile": ["DM Sans", "sans-serif"],
+            "headline-lg": ["DM Sans", "sans-serif"],
+            "headline-md": ["DM Sans", "sans-serif"],
+            "headline-sm": ["DM Sans", "sans-serif"],
+            "headline-sm-mobile": ["DM Sans", "sans-serif"],
+            "label-lg": ["DM Sans", "sans-serif"],
+            "label-md": ["DM Sans", "sans-serif"],
+            "label-sm": ["DM Sans", "sans-serif"],
+            "body-lg": ["DM Sans", "sans-serif"],
+            "body-md": ["DM Sans", "sans-serif"],
+            "body-sm": ["DM Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-jolty-cream font-body-md text-body-md text-jolty-ink antialiased flex flex-col min-h-screen">
+
+  <!-- Accessible Live Toast Announcement Region -->
+  <div id="toastNotification" class="jolty-toast bg-jolty-ink text-jolty-paper px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-jolty-amber/40" role="status" aria-live="polite">
+    <span class="material-symbols-outlined text-jolty-amber text-[20px]" id="toastIcon">info</span>
+    <span class="font-label-md text-label-md text-jolty-paper" id="toastMessage">Updating status...</span>
+  </div>
+
+  <!-- Shared Top Navigation Header -->
+  <header class="fixed top-0 w-full z-50 pt-safe bg-jolty-cream/95 backdrop-blur-xl border-b border-jolty-line/60 shadow-[0_1px_8px_rgba(0,0,0,0.03)]" id="mainHeader">
+    <div class="h-16 px-margin-mobile max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo Wordmark -->
+      <a href="#home" class="flex items-center min-h-[44px] min-w-[44px] -ml-2 px-2" aria-label="Jolty Home">
+        <span class="font-headline-sm-mobile text-[22px] font-extrabold tracking-tight text-jolty-ink">
+          Jolty<span class="text-jolty-amber font-black">.</span>
+        </span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6" aria-label="Main Navigation">
+        <a href="#home" class="font-label-md text-jolty-ink hover:text-jolty-amber transition-colors font-semibold py-1">Home</a>
+        <a href="#mechanics" class="font-label-md text-jolty-muted hover:text-jolty-ink transition-colors font-medium py-1">Find Mechanics</a>
+        <a href="#tracking" class="font-label-md text-jolty-muted hover:text-jolty-ink transition-colors font-medium py-1">Live Tracker</a>
+        <a href="#services" class="font-label-md text-jolty-muted hover:text-jolty-ink transition-colors font-medium py-1">Emergency Services</a>
+        <a href="#about" class="font-label-md text-jolty-muted hover:text-jolty-ink transition-colors font-medium py-1">About</a>
+      </nav>
+
+      <!-- Header Actions: Location Chip, Get Help CTA, Profile -->
+      <div class="flex items-center gap-space-sm">
+        
+        <!-- Synchronized Location Header Chip -->
+        <button type="button" id="headerLocationChip" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-jolty-ink font-label-sm text-[13px] border border-jolty-line transition-all max-w-[200px] truncate" title="Click to view or edit breakdown location">
+          <span class="material-symbols-outlined text-[16px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">location_on</span>
+          <span id="headerLocationText" class="truncate font-semibold">NH-48, Gurgaon</span>
+        </button>
+
+        <!-- Primary Emergency CTA -->
+        <a href="#mechanics" class="min-h-[42px] px-space-md bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-md text-label-md font-bold rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-[0_2px_12px_rgba(255,184,0,0.25)]" id="headerHelpBtn">
+          <span class="material-symbols-outlined text-[18px] mr-1">emergency</span>
+          <span>Get Help</span>
+        </a>
+
+        <!-- User Profile / Login Link -->
+        <a href="#login" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high border border-jolty-line flex items-center justify-center shrink-0 text-jolty-ink transition-transform active:scale-95" aria-label="Sign In or Account">
+          <span class="material-symbols-outlined text-[20px]" id="headerUserIcon">person</span>
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Multi-Screen Application View Container -->
+  <main class="flex flex-col relative w-full pt-16 bg-jolty-cream flex-1 pb-20 md:pb-8">
+
+    <!-- ======================================================================
+         SCREEN 1: LANDING & SERVICE DISCOVERY (Matches Stitch Screen 11d74dbc)
+         ====================================================================== -->
+    <section class="screen-view active" id="screen-home" aria-labelledby="heroHeadline">
+      <div class="flex flex-col w-full">
+        
+        <!-- Hero Section with Golden Hour Indian Highway Visual -->
+        <div class="relative w-full overflow-hidden">
+          <div class="relative w-full min-h-[580px] md:min-h-[640px] flex flex-col justify-end bg-jolty-night">
+            
+            <!-- Golden Hour Roadside Hero Image from Stitch -->
+            <img 
+              alt="Roadside mechanic servicing car at sunset on Indian highway" 
+              class="absolute inset-0 w-full h-full object-cover object-center" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuABh9zmrj9GnD58wecbYnRwLyi2kqmd-LqCVmfskgiGQRHE9TcTUJaKQPd8fRqPZdjKcdXkNHdBo36mmUdJyQq-LHAU41zB9tJCGHC-xnJLVq7GiVpeBlmfZvIWCg1ZcZRgyX4r48LGXQh0xa6shiiklhLJ8jHSAftpqlN4SNPJMj2gPVj27gU5HdwzBBE501jOEYvcdOyBrfrVop5QCQVBu3VjeA8yyirbXicRo6QRiwGR7jECtnUQRzZG_8v10d3YmQ"
+            >
+            
+            <!-- Layered Scrim for High Legibility -->
+            <div class="absolute inset-0 bg-gradient-to-t from-jolty-black via-jolty-night/75 to-transparent"></div>
+            <div class="absolute inset-0 bg-jolty-ink/20"></div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 px-margin-mobile max-w-7xl mx-auto w-full pt-space-lg pb-space-lg flex flex-col gap-space-sm text-jolty-paper">
+              
+              <!-- Live Availability Pill -->
+              <div class="inline-flex items-center gap-space-xs self-start px-3 py-1 rounded-full bg-jolty-paper/20 backdrop-blur-md text-jolty-paper shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-jolty-amber animate-ping"></span>
+                <span class="w-2 h-2 rounded-full bg-jolty-amber -ml-3"></span>
+                <span class="font-label-sm text-label-sm font-semibold tracking-wide">Local mechanics • Available 24/7</span>
+              </div>
+
+              <!-- Punchy Hero Title -->
+              <h1 class="font-display-hero-mobile md:text-display-hero md:leading-[1.1] text-display-hero-mobile font-extrabold text-jolty-paper tracking-tight leading-tight mt-1 max-w-2xl" id="heroHeadline">
+                Breakdown at 2 AM?<br>
+                <span class="text-jolty-amber">Just Jolty.</span>
+              </h1>
+
+              <p class="font-body-md md:text-body-lg text-body-md text-jolty-cream/90 max-w-xl">
+                Real local mechanics, whenever you need. Day or night, anywhere in India.
+              </p>
+
+              <!-- Synchronized Location Input & GPS CTA -->
+              <div class="w-full max-w-xl mt-2 flex flex-col gap-space-xs">
+                
+                <div class="relative flex items-center w-full bg-jolty-paper rounded-xl shadow-lg border border-jolty-line/80">
+                  <span class="material-symbols-outlined absolute left-3.5 text-jolty-muted text-[22px]">my_location</span>
+                  <input 
+                    class="w-full h-14 pl-11 pr-24 bg-transparent text-jolty-ink font-body-sm text-[15px] rounded-xl focus:outline-none placeholder:text-jolty-muted" 
+                    id="hero-location-input" 
+                    placeholder="Enter highway milestone or landmark" 
+                    type="text"
+                    value="NH-48, near Manesar Toll Plaza, Gurugram"
+                    aria-label="Breakdown location input"
+                  >
+                  <!-- Find Location / GPS Button -->
+                  <button 
+                    aria-label="Detect current location via browser GPS" 
+                    class="absolute right-2 px-3 py-2 rounded-lg bg-surface-container text-jolty-ink hover:bg-surface-container-high transition-all flex items-center gap-1 active:scale-95 shadow-sm" 
+                    id="detect-gps-btn" 
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[17px] text-jolty-green" id="gps-icon">near_me</span>
+                    <span class="font-label-sm text-label-sm font-bold" id="gps-label">GPS</span>
+                  </button>
+                </div>
+
+                <!-- Find Mechanics CTA -->
+                <a 
+                  class="w-full h-12 mt-1 px-space-lg bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-space-xs transition-transform active:scale-[0.98] shadow-md" 
+                  href="#mechanics" 
+                  id="heroFindMechanicsBtn"
+                >
+                  <span class="material-symbols-outlined text-[20px]">search</span>
+                  <span>Find Mechanics Nearby</span>
+                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </a>
+
+              </div>
+
+              <!-- Reassurance Badges -->
+              <div class="flex items-center justify-between max-w-xl pt-space-xs text-jolty-cream/80 font-label-sm text-label-sm">
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-jolty-amber">check_circle</span>
+                  <span>Live nearby</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-jolty-amber">bolt</span>
+                  <span>Quick response</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[16px] text-jolty-amber">verified</span>
+                  <span>Verified pros</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================================
+             CRITICAL PRICING TRANSPARENCY NOTICE (Unmistakable Distinction)
+             ====================================================================== -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-md">
+          <div class="pricing-notice-card bg-jolty-paper border-2 border-jolty-amber/60 p-4 rounded-2xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl bg-jolty-amber/20 text-jolty-ink flex items-center justify-center shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-[24px]">verified</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-label-md text-label-md font-bold text-jolty-ink">Jolty Platform Fee: ₹149</span>
+                  <span class="pricing-badge-tag text-[11px] px-2 py-0.5">Dispatch Assurance</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-jolty-ink/90 mt-0.5">
+                  <strong class="text-jolty-ink font-bold">Repair prices are not included.</strong> The repair cost is separate and depends on the work required after on-site mechanic inspection.
+                </p>
+              </div>
+            </div>
+            <a href="#mechanics" class="shrink-0 text-jolty-ink font-label-sm text-label-sm font-bold underline hover:text-jolty-amber transition-colors flex items-center gap-1">
+              <span>View local quote guidelines</span>
+              <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Service Shortcuts (2x2 Touch Grid on mobile, 4-col on desktop) -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-xl pb-space-sm flex flex-col gap-space-md" id="servicesSection">
+          <div class="flex items-end justify-between">
+            <div>
+              <span class="font-label-sm text-label-sm uppercase tracking-wider text-jolty-muted">Direct Dispatch</span>
+              <h2 class="font-headline-sm-mobile md:text-headline-md text-headline-sm-mobile font-bold text-jolty-ink">What went wrong?</h2>
+            </div>
+            <span class="font-label-sm text-label-sm text-jolty-green flex items-center gap-1 font-semibold">
+              <span class="inline-block w-2 h-2 rounded-full bg-jolty-green animate-pulse"></span>
+              Fast arrival
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-space-sm">
+            
+            <!-- General Repair -->
+            <a class="bg-jolty-paper p-space-md rounded-xl shadow-sm hover:shadow-md transition-all active:scale-[0.98] flex flex-col justify-between h-36 border border-jolty-line/60 hover:border-jolty-amber" href="#mechanics" data-service-filter="general">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[24px]">build</span>
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">General Repair</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted leading-tight mt-0.5">Engine, clutch, fluid & quick fixes</p>
+              </div>
+            </a>
+
+            <!-- Flat Tyre -->
+            <a class="bg-jolty-paper p-space-md rounded-xl shadow-sm hover:shadow-md transition-all active:scale-[0.98] flex flex-col justify-between h-36 border border-jolty-line/60 hover:border-jolty-amber" href="#mechanics" data-service-filter="tyre">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[24px]">tire_repair</span>
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Flat Tyre</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted leading-tight mt-0.5">Punctures, air fill, stepney replacement</p>
+              </div>
+            </a>
+
+            <!-- Battery Jump -->
+            <a class="bg-jolty-paper p-space-md rounded-xl shadow-sm hover:shadow-md transition-all active:scale-[0.98] flex flex-col justify-between h-36 border border-jolty-line/60 hover:border-jolty-amber" href="#mechanics" data-service-filter="battery">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[24px]">electric_bolt</span>
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Battery Jump</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted leading-tight mt-0.5">Rapid cable boost & new battery fit</p>
+              </div>
+            </a>
+
+            <!-- Towing -->
+            <a class="bg-jolty-paper p-space-md rounded-xl shadow-sm hover:shadow-md transition-all active:scale-[0.98] flex flex-col justify-between h-36 border border-jolty-line/60 hover:border-jolty-amber" href="#mechanics" data-service-filter="towing">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink">
+                <span class="material-symbols-outlined text-[24px]">local_shipping</span>
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Towing Service</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted leading-tight mt-0.5">Hydraulic lift & flatbed carrier</p>
+              </div>
+            </a>
+
+          </div>
+        </section>
+
+        <!-- Live Tracking Interactive Preview Card -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-lg flex flex-col gap-space-sm">
+          <div class="flex items-center justify-between">
+            <h2 class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile font-bold text-jolty-ink">
+              Track your mechanic in real time
+            </h2>
+            <a href="#tracking" class="font-label-sm text-label-sm text-jolty-amber font-bold hover:underline flex items-center gap-1">
+              <span>View live simulator</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+          </div>
+
+          <div class="bg-jolty-paper rounded-2xl shadow-md overflow-hidden border border-jolty-line/60">
+            <!-- Simulated Map Canvas -->
+            <div class="w-full h-48 bg-cover bg-center relative flex flex-col justify-between p-3.5" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4a-hJeGmK_D3RazPlTyIzdog0icAJLp1dQiEjUUVEETmU6aa8mkARs4JY-I_R8Sb-VxY_ZIUKBVYlPtmeAbb88LNL3LNa1bYfl5xrhIU1DyWWgljlvCX2SRsBrw9VpTxIA6D9RemSXaUxKwMG2OZc91uCOmb50YdECcbvk87vqifndtb5KN9UwO6f3P5h3jx9Gq7SjYoDufNkMmIGKGet7B2PKJjr4DvMFMqVDRYyoUxktDGKsOl2')">
+              <div class="self-start px-3 py-1 rounded-full bg-jolty-paper/95 shadow-sm text-jolty-ink font-label-sm text-label-sm flex items-center gap-1.5 backdrop-blur-sm">
+                <span class="w-2 h-2 rounded-full bg-jolty-green animate-ping"></span>
+                <span class="font-semibold">Live Signal • NH 48, KM 42</span>
+              </div>
+              <div class="self-end px-3 py-1.5 rounded-lg bg-jolty-black text-jolty-paper shadow-md flex items-center gap-2">
+                <span class="material-symbols-outlined text-[18px] text-jolty-amber">navigation</span>
+                <span class="font-label-md text-label-md font-bold">ETA: 14 mins</span>
+              </div>
+            </div>
+
+            <!-- Mechanic Dispatch Details -->
+            <div class="p-space-md flex flex-col gap-space-sm">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-jolty-ink font-bold overflow-hidden">
+                    <span class="material-symbols-outlined text-[28px] text-secondary">person</span>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-label-lg text-label-lg font-bold text-jolty-ink">Suresh Kumar</span>
+                      <span class="material-symbols-outlined text-[16px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="font-label-sm text-label-sm font-semibold text-jolty-ink">4.9</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-jolty-muted">Hero Splendor • DL 3S CG 8412</p>
+                  </div>
+                </div>
+                <button aria-label="Call mechanic" class="w-11 h-11 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center active:scale-95 shadow-sm" onclick="alert('Calling dispatched mechanic Suresh Kumar: +91 98765 43210')" type="button">
+                  <span class="material-symbols-outlined text-[20px]">call</span>
+                </button>
+              </div>
+
+              <!-- Stepper Progress Bar -->
+              <div class="pt-2 flex flex-col gap-1.5">
+                <div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+                  <div class="bg-jolty-amber h-full rounded-full w-2/3 transition-all duration-700"></div>
+                </div>
+                <div class="flex justify-between font-label-sm text-label-sm text-jolty-muted">
+                  <span class="text-jolty-green font-semibold">1. Assigned</span>
+                  <span class="text-jolty-ink font-bold">2. En Route (2.4 km)</span>
+                  <span>3. Arrived</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Why Choose Jolty (Value Pillars) -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-xl flex flex-col gap-space-md" id="aboutSection">
+          <div>
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-jolty-muted">Zero Stress</span>
+            <h2 class="font-headline-sm-mobile md:text-headline-md text-headline-sm-mobile font-bold text-jolty-ink">
+              Help when you need it.
+            </h2>
+            <p class="font-body-sm text-body-sm text-jolty-muted mt-1">
+              Built for unpredictable road conditions with verified local specialists.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+            <!-- Benefit 1 -->
+            <div class="bg-jolty-paper p-space-md rounded-xl shadow-sm flex items-start gap-space-sm border border-jolty-line/60">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink shrink-0">
+                <span class="material-symbols-outlined text-[22px]">storefront</span>
+              </div>
+              <div class="flex flex-col">
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Nearby local mechanics</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">
+                  Connect with grassroots ustads and garage mechanics within minutes, even outside metro borders.
+                </p>
+              </div>
+            </div>
+
+            <!-- Benefit 2 -->
+            <div class="bg-jolty-paper p-space-md rounded-xl shadow-sm flex items-start gap-space-sm border border-jolty-line/60">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink shrink-0">
+                <span class="material-symbols-outlined text-[22px]">receipt_long</span>
+              </div>
+              <div class="flex flex-col">
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Clear upfront pricing</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">
+                  Transparent Jolty fee before arrival. Repair prices are not included and are quoted on-site.
+                </p>
+              </div>
+            </div>
+
+            <!-- Benefit 3 -->
+            <div class="bg-jolty-paper p-space-md rounded-xl shadow-sm flex items-start gap-space-sm border border-jolty-line/60">
+              <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-jolty-ink shrink-0">
+                <span class="material-symbols-outlined text-[22px]">dark_mode</span>
+              </div>
+              <div class="flex flex-col">
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Day-and-night assistance</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">
+                  24/7 dedicated telephone dispatchers watching your back until your wheels turn again safely.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- How It Works (Step Flow) -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-xl flex flex-col gap-space-md" id="processSection">
+          <div>
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-jolty-muted">Effortless Flow</span>
+            <h2 class="font-headline-sm-mobile md:text-headline-md text-headline-sm-mobile font-bold text-jolty-ink">
+              How it works in 3 steps
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-sm">
+            <div class="bg-jolty-paper p-space-md rounded-xl shadow-sm flex items-center gap-space-md border border-jolty-line/60">
+              <div class="w-9 h-9 rounded-full bg-jolty-amber text-jolty-ink font-bold flex items-center justify-center text-label-md shrink-0">
+                1
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Set your location</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">Share live GPS coordinates or mention the nearest highway landmark.</p>
+              </div>
+            </div>
+
+            <div class="bg-jolty-paper p-space-md rounded-xl shadow-sm flex items-center gap-space-md border border-jolty-line/60">
+              <div class="w-9 h-9 rounded-full bg-jolty-amber text-jolty-ink font-bold flex items-center justify-center text-label-md shrink-0">
+                2
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Choose a mechanic</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">Review verified distance, vehicle tools, and transparent Jolty fee.</p>
+              </div>
+            </div>
+
+            <div class="bg-jolty-paper p-space-md rounded-xl shadow-sm flex items-center gap-space-md border border-jolty-line/60">
+              <div class="w-9 h-9 rounded-full bg-jolty-amber text-jolty-ink font-bold flex items-center justify-center text-label-md shrink-0">
+                3
+              </div>
+              <div>
+                <h3 class="font-label-lg text-label-lg font-bold text-jolty-ink">Get back on the road</h3>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">Track live dispatch on your screen and settle repair charges with mechanic.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Day & Night Feature Split Panels -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-xl flex flex-col md:flex-row gap-space-md">
+          <!-- Day Panel -->
+          <div class="flex-1 bg-surface-container p-space-lg rounded-2xl flex flex-col gap-space-xs text-jolty-ink shadow-sm border border-jolty-line/60">
+            <div class="flex items-center gap-2 text-jolty-amber">
+              <span class="material-symbols-outlined text-[24px]">wb_sunny</span>
+              <span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-jolty-ink">Daytime Transit</span>
+            </div>
+            <h3 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink mt-1">
+              Day or night, we've got you.
+            </h3>
+            <p class="font-body-sm text-body-sm text-jolty-muted">
+              Traffic snarls, mid-day overheating, or tyre blowouts under direct sun. Mechanics arrive equipped with diagnostic scanners and tools.
+            </p>
+          </div>
+
+          <!-- Night Panel (Hero differentiator) -->
+          <div class="flex-1 bg-jolty-night p-space-lg rounded-2xl flex flex-col gap-space-sm text-jolty-paper shadow-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-jolty-amber">
+                <span class="material-symbols-outlined text-[24px]">bedtime</span>
+                <span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-jolty-amber">Emergency Shift</span>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-jolty-paper/10 text-jolty-paper font-label-sm text-label-sm font-semibold">
+                24/7 Available
+              </span>
+            </div>
+            <h3 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-paper">
+              Even at 2 AM, help is just a tap away.
+            </h3>
+            <p class="font-body-sm text-body-sm text-jolty-cream/80">
+              Deserted state bypass or pitch-dark flyovers—our vetted night responders prioritize solo travelers and family safety with speed and reassurance.
+            </p>
+            <div class="pt-1">
+              <a class="inline-flex items-center gap-1.5 text-jolty-amber font-label-md text-label-md font-bold hover:underline" href="#mechanics">
+                <span>Request emergency response</span>
+                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Indian Highway Truck Banner Artwork Section -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-xl flex flex-col gap-space-md">
+          <div class="bg-jolty-paper rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row border border-jolty-line/60">
+            <!-- Tata Truck Art -->
+            <div class="w-full md:w-1/2 bg-surface-container-high/40 p-4 flex items-center justify-center">
+              <img 
+                alt="Decorated traditional Indian Tata highway truck pencil sketch with floral motif art" 
+                class="w-full max-h-64 object-contain" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtybuvLKgEV9SdXw7k34MRoszkTUeoLC7gH5zAJGzkGkv7BITS77bgfw1pCiOe2WEZBR6PwWoZIJqjGqKozWOox6ZwAhkJAVZY4XRUb9zNTz9ZAe9SQSEz7znf-LZkViI-zwIAFdT5uPreVfhnw2var0nhfL7-i8P5amzXI5bW4l28dh3L8VH0jBOmZ2SVM9MZzmusgnqQ2g4psccMq8Lj0cyyxU6U3Vg2XyruHMK3jtCK_B2vtzBTGJTQhKPLqz6sGQ"
+              >
+            </div>
+            <div class="p-space-lg md:w-1/2 flex flex-col justify-center gap-space-xs text-jolty-ink">
+              <div class="inline-flex items-center gap-1 text-jolty-green font-label-sm text-label-sm font-bold">
+                <span class="material-symbols-outlined text-[16px]">local_shipping</span>
+                <span>Desh Ki Sadak, Desh Ka Saath</span>
+              </div>
+              <h2 class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile font-bold text-jolty-ink leading-tight">
+                India moves forward. Because help is always nearby.
+              </h2>
+              <p class="font-body-sm text-body-sm text-jolty-muted">
+                Trusted roadside support across national highways, expressways, ring roads, and quiet rural stretches.
+              </p>
+              <div class="pt-space-sm">
+                <a class="w-full sm:w-auto inline-flex h-12 px-space-lg bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-md text-label-md font-bold rounded-xl items-center justify-center gap-2 transition-transform active:scale-95 shadow-sm" href="#mechanics">
+                  <span class="material-symbols-outlined text-[18px]">support_agent</span>
+                  <span>Get Help Now</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Final Conversion CTA Card -->
+        <section class="px-margin-mobile max-w-7xl mx-auto w-full pt-space-xl pb-space-sm">
+          <div class="w-full bg-gradient-to-br from-jolty-amber via-primary-fixed to-jolty-amber-soft p-space-lg rounded-2xl shadow-md text-jolty-ink flex flex-col gap-space-sm">
+            <div class="w-10 h-10 rounded-full bg-jolty-ink text-jolty-amber flex items-center justify-center shadow-sm">
+              <span class="material-symbols-outlined text-[22px]">sos</span>
+            </div>
+            <h2 class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile font-bold text-jolty-ink leading-snug">
+              Stranded right now? We'll send someone immediately.
+            </h2>
+            <p class="font-body-sm text-body-sm text-jolty-ink/80 max-w-xl">
+              No app downloads required. Tell us where you are, and a vetted mechanic will be en route in minutes.
+            </p>
+            <div class="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <a class="h-12 px-space-lg bg-jolty-black text-jolty-paper font-label-md text-label-md font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-jolty-night transition-transform active:scale-95" href="#mechanics">
+                <span class="material-symbols-outlined text-[20px] text-jolty-amber">flash_on</span>
+                <span>Dispatch Instant Assistance</span>
+              </a>
+              <p class="font-label-sm text-label-sm text-jolty-ink/80 flex items-center gap-1">
+                <span>Toll-free hotline:</span>
+                <a href="tel:18005658924" class="font-bold underline text-jolty-ink">1800-JOLTY-24</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 2: NEARBY MECHANICS (Matches Stitch Screen a937f8b5)
+         ====================================================================== -->
+    <section class="screen-view" id="screen-mechanics" aria-labelledby="mechanicsHeadline">
+      <div class="flex flex-col w-full">
+        
+        <!-- Visual Hero Strip with Roadside Reassurance -->
+        <div class="relative w-full h-44 overflow-hidden shadow-sm">
+          <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCuzmYBft9ZfSDis076fvKLX8e8LTJ4PHhiTlL72R-0OSkg44MtM74RpclR_7cpkI-nT843d1lYAbAok7C04zvKNljqaewSqTnqFTtLComJERFnx49ZFr06ZyI13UgkfSLzIK8--lykriYGj1TA77BE96nAFOmY0-nG36JVwmZDDtTirpq5Wm5WvMvwsOx_G0X0ApC1hDnnMXdMOtSOQAXzja7iGUiiI0tvWCgMGtniv_kl6I53A4sQ')"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-jolty-night/95 via-jolty-night/40 to-transparent flex flex-col justify-end p-margin-mobile max-w-7xl mx-auto w-full">
+            <div class="flex items-center gap-space-xs text-jolty-amber mb-1">
+              <span class="material-symbols-outlined text-[16px] animate-pulse">radar</span>
+              <span class="font-label-sm text-label-sm uppercase tracking-wider font-bold">Live Patrol Active</span>
+            </div>
+            <h1 class="font-headline-sm-mobile md:text-headline-md text-headline-sm-mobile text-jolty-paper font-bold" id="mechanicsHeadline">
+              Mechanics Nearby
+            </h1>
+            <p class="font-body-sm text-body-sm text-jolty-paper/80">3 verified emergency specialists within 5 km</p>
+          </div>
+        </div>
+
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full flex flex-col gap-space-md py-space-md">
+          
+          <!-- Current Highway Location Bar (Synchronized) -->
+          <div class="bg-jolty-paper rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm border border-jolty-line/60">
+            <div class="flex items-start gap-space-sm min-w-0">
+              <div class="w-9 h-9 rounded-full bg-jolty-cream flex items-center justify-center shrink-0 mt-0.5 text-jolty-amber">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+              </div>
+              <div class="flex flex-col min-w-0">
+                <span class="font-label-sm text-label-sm text-jolty-muted">Your Breakdown Spot</span>
+                <p class="font-label-md text-label-md text-jolty-ink font-semibold truncate" id="mechanicsLocationSpot">
+                  NH 48, near Manesar Toll, Gurgaon
+                </p>
+              </div>
+            </div>
+            <button class="shrink-0 bg-jolty-cream hover:bg-secondary-container active:scale-95 text-jolty-ink font-label-sm text-label-sm px-space-sm py-1.5 rounded-lg transition-transform flex items-center gap-1 border border-jolty-line" type="button" id="changeLocationBtn">
+              <span>Change</span>
+              <span class="material-symbols-outlined text-[14px]">edit</span>
+            </button>
+          </div>
+
+          <!-- Pricing Transparency Callout Card on Mechanics View -->
+          <div class="pricing-notice-card">
+            <div class="flex items-start gap-2.5">
+              <span class="material-symbols-outlined text-jolty-ink text-[20px]">info</span>
+              <div>
+                <p class="font-label-md text-label-md font-bold text-jolty-ink">
+                  Jolty Platform Fee: ₹149 per dispatch request
+                </p>
+                <div class="repair-excluded-callout">
+                  <p class="font-body-sm text-body-sm text-jolty-ink">
+                    <strong>Repair prices are not included.</strong> The mechanic will inspect your vehicle on arrival and quote the repair cost directly based on parts and work needed.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- View Toggle (List vs Map) & Live Filter Chips -->
+          <div class="flex flex-col gap-space-sm">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-jolty-green animate-ping"></span>
+                <span class="font-label-sm text-label-sm text-jolty-ink font-semibold">Immediate Dispatch</span>
+              </div>
+
+              <!-- Segmented Tab Toggle -->
+              <div class="bg-surface-container p-0.5 rounded-full flex items-center" id="viewToggle" role="tablist">
+                <button class="px-3 py-1 rounded-full font-label-sm text-label-sm transition-all bg-jolty-paper text-jolty-ink font-semibold shadow-sm flex items-center gap-1" id="btnListView" type="button" role="tab" aria-selected="true">
+                  <span class="material-symbols-outlined text-[16px]">format_list_bulleted</span>
+                  <span>List</span>
+                </button>
+                <button class="px-3 py-1 rounded-full font-label-sm text-label-sm transition-all text-jolty-muted hover:text-jolty-ink flex items-center gap-1" id="btnMapView" type="button" role="tab" aria-selected="false">
+                  <span class="material-symbols-outlined text-[16px]">map</span>
+                  <span>Map</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Service Filter Pills Horizontal Scroll -->
+            <div class="flex items-center gap-space-xs overflow-x-auto pb-1 no-scrollbar -mx-margin-mobile px-margin-mobile">
+              <button class="service-pill shrink-0 px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-jolty-ink text-jolty-paper font-semibold shadow-sm transition-transform active:scale-95" type="button" data-filter="all">
+                All (3)
+              </button>
+              <button class="service-pill shrink-0 px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-jolty-paper text-jolty-muted hover:text-jolty-ink transition-transform active:scale-95 border border-jolty-line/60" type="button" data-filter="general">
+                General Repair
+              </button>
+              <button class="service-pill shrink-0 px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-jolty-paper text-jolty-muted hover:text-jolty-ink transition-transform active:scale-95 border border-jolty-line/60" type="button" data-filter="tyre">
+                Flat Tyre
+              </button>
+              <button class="service-pill shrink-0 px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-jolty-paper text-jolty-muted hover:text-jolty-ink transition-transform active:scale-95 border border-jolty-line/60" type="button" data-filter="battery">
+                Battery Jumpstart
+              </button>
+              <button class="service-pill shrink-0 px-3.5 py-1.5 rounded-full font-label-sm text-label-sm bg-jolty-paper text-jolty-muted hover:text-jolty-ink transition-transform active:scale-95 border border-jolty-line/60" type="button" data-filter="towing">
+                Towing
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Map Container (Toggleable) -->
+          <div class="hidden flex-col gap-space-sm" id="mapViewContainer">
+            <div class="w-full h-64 md:h-80 rounded-2xl bg-cover bg-center shadow-inner relative overflow-hidden border border-jolty-line/60" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCAYhxk0jdxlOBgCJ3EMU6ChRa2Dxkkli_OmQMghE95pvVu7MPpbNGleat6JEFxgXdRHKgRruLvqiu-6fwYgVMGMmeDbd1qaJkb9kGqDXwN3wzvxlpuR2vMY0LSSnCrOTKj0zQYoP1rum-dPh3v1iJvf8G1t4aULria_ohG2wGEZpS3o0PqKjQm_fdIY9_SaGgSpvzhppb2xOWoKgD9x5UpDD3IasBrWvahcoy3NBt6gBByGOhs15ru')">
+              <div class="absolute inset-0 bg-jolty-ink/10"></div>
+              <div class="absolute bottom-3 left-3 bg-jolty-paper/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-md flex items-center gap-2 border border-jolty-line/60">
+                <span class="w-2.5 h-2.5 rounded-full bg-jolty-green animate-ping"></span>
+                <span class="font-label-sm text-label-sm text-jolty-ink font-bold">GPS Active: NH 48 Corridor</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mechanic Cards List -->
+          <div class="flex flex-col gap-space-md" id="listViewContainer">
+            
+            <!-- CARD 1: Rajesh Auto Works -->
+            <article class="bg-jolty-paper rounded-2xl p-space-md shadow-sm transition-all hover:shadow-md flex flex-col gap-space-md relative overflow-hidden border border-jolty-line/60 mechanic-card" data-category="tyre general battery">
+              <div class="absolute top-0 right-0 w-24 h-24 bg-jolty-amber-soft/20 rounded-full blur-xl pointer-events-none -mr-6 -mt-6"></div>
+              <div class="flex items-start justify-between gap-space-sm relative">
+                <div class="flex gap-space-sm">
+                  <div class="relative w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
+                    <img class="w-full h-full object-cover" alt="Portrait of master technician Rajesh Kumar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR3kcICP-MIUGdGrvR_o_smFf_8kfaSMyWYbramdvaCVPT4YSmGhVsuf_AzVYNWdwOl2oqD4bJt7mrh3AxOtRquTYdQAOonYN2LF-703B_6oVU6c-4S_Ks5EbUTCyhTbe5yFF2czYxTnd_geQArXsNa2b5OHfTmpKbOArCY8NqXHcWXB0JaAc-Y81y21knHNjGfTLFUyaAO-t-4dt7NCclyg3sQXEBZJlx9lZ39vD1qUuZanw1baLK">
+                    <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-jolty-green rounded-full shadow-sm"></span>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink leading-tight">
+                      Rajesh Auto Works & 24/7 Rescue
+                    </h2>
+                    <div class="flex items-center gap-1.5 mt-1 text-jolty-muted">
+                      <div class="flex items-center text-jolty-ink font-label-sm text-label-sm font-semibold">
+                        <span class="material-symbols-outlined text-[15px] text-jolty-amber mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span>4.9</span>
+                        <span class="text-jolty-muted font-normal ml-0.5">(184)</span>
+                      </div>
+                      <span>•</span>
+                      <span class="inline-flex items-center text-jolty-green font-label-sm text-label-sm font-semibold">
+                        <span class="material-symbols-outlined text-[14px] mr-0.5">verified</span>
+                        Verified Pro
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Distance & ETA Strip -->
+              <div class="bg-jolty-cream rounded-xl p-2.5 flex items-center justify-between border border-jolty-line/60">
+                <div class="flex items-center gap-1 text-jolty-ink font-label-md text-label-md font-semibold">
+                  <span class="material-symbols-outlined text-[18px] text-jolty-amber">near_me</span>
+                  <span>1.8 km away</span>
+                </div>
+                <div class="flex items-center gap-1 bg-jolty-paper px-2.5 py-1 rounded-full shadow-sm font-label-sm text-label-sm text-jolty-ink font-semibold">
+                  <span class="material-symbols-outlined text-[15px] text-jolty-green">timer</span>
+                  <span>ETA ~12 mins</span>
+                </div>
+              </div>
+
+              <!-- Feature Badges -->
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="bg-surface-container px-2.5 py-1 rounded-full font-label-sm text-label-sm text-jolty-ink flex items-center gap-1 font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-jolty-green"></span>
+                  Open 24/7
+                </span>
+                <span class="bg-surface-container px-2.5 py-1 rounded-full font-label-sm text-label-sm text-jolty-muted flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px]">handyman</span>
+                  Hydraulic Jack, Battery Kit
+                </span>
+              </div>
+
+              <!-- Service Tags & Pricing Row (With Explicit Jolty Fee Label) -->
+              <div class="flex items-center justify-between pt-1 border-t border-jolty-line/40">
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-[12px] text-jolty-muted">Jolty Platform Fee</span>
+                  <div class="flex items-baseline gap-1">
+                    <span class="font-headline-sm-mobile text-headline-sm-mobile font-extrabold text-jolty-ink">₹149</span>
+                    <span class="font-label-sm text-[11px] text-jolty-green font-bold">Upfront</span>
+                  </div>
+                  <span class="font-label-sm text-[10px] text-jolty-muted">Repair prices not included</span>
+                </div>
+                <button class="min-h-[48px] px-space-lg bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-md text-label-md font-bold rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-[0_2px_12px_rgba(255,184,0,0.3)] gap-1 choose-mechanic-btn" type="button" data-mechanic-id="rajesh" data-mechanic-name="Rajesh Auto Works" data-eta="12 mins" data-vehicle="White Maruti Eeco (DL 3C AB 9812)">
+                  <span>Choose Mechanic</span>
+                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+              </div>
+
+              <div class="text-jolty-muted font-body-sm text-body-sm flex items-center gap-2">
+                <span class="font-label-sm text-label-sm uppercase font-semibold text-jolty-ink">Handles:</span>
+                <span class="truncate">Puncture • Battery Jump • Mechanical</span>
+              </div>
+            </article>
+
+            <!-- CARD 2: Sharma Ji Roadside Assistance -->
+            <article class="bg-jolty-paper rounded-2xl p-space-md shadow-sm transition-all hover:shadow-md flex flex-col gap-space-md relative overflow-hidden border border-jolty-line/60 mechanic-card" data-category="general tyre towing">
+              <div class="flex items-start justify-between gap-space-sm">
+                <div class="flex gap-space-sm">
+                  <div class="relative w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
+                    <img class="w-full h-full object-cover" alt="Portrait of senior auto specialist Sharma Ji" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxsNG3m4Ay-9CsB4yfGCUvt1zffrXCD9t2QsY6NpdS667mYBlIYdx8KljoldNqgIz49XfbgZEbo0slZV-uYrYsw33YjLtYwI8ynONTs0wq8Gk9yjXBnKmgIco28mvsAzB_eV2BnMzoXjWdWHSmECZlxvicnMaaAp1bNC24_VmTJurKugGq9cz4nel5b1Ms069t9V3RAqmxleqRpDQ2NZQWQbWT278wx43UzgjGPTcuLELMUXNRpeCG">
+                    <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-jolty-green rounded-full shadow-sm"></span>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink leading-tight">
+                      Sharma Ji Roadside Assistance
+                    </h2>
+                    <div class="flex items-center gap-1.5 mt-1 text-jolty-muted">
+                      <div class="flex items-center text-jolty-ink font-label-sm text-label-sm font-semibold">
+                        <span class="material-symbols-outlined text-[15px] text-jolty-amber mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span>4.8</span>
+                        <span class="text-jolty-muted font-normal ml-0.5">(240)</span>
+                      </div>
+                      <span>•</span>
+                      <span class="font-label-sm text-label-sm text-jolty-muted">10+ yrs Highway exp</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Distance & ETA Strip -->
+              <div class="bg-jolty-cream rounded-xl p-2.5 flex items-center justify-between border border-jolty-line/60">
+                <div class="flex items-center gap-1 text-jolty-ink font-label-md text-label-md font-semibold">
+                  <span class="material-symbols-outlined text-[18px] text-jolty-amber">near_me</span>
+                  <span>3.2 km away</span>
+                </div>
+                <div class="flex items-center gap-1 bg-jolty-paper px-2.5 py-1 rounded-full shadow-sm font-label-sm text-label-sm text-jolty-ink font-semibold">
+                  <span class="material-symbols-outlined text-[15px] text-jolty-green">timer</span>
+                  <span>ETA ~18 mins</span>
+                </div>
+              </div>
+
+              <!-- Feature Badges -->
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="bg-jolty-amber-soft/40 px-2.5 py-1 rounded-full font-label-sm text-label-sm text-jolty-ink font-semibold flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                  Express Arrival
+                </span>
+                <span class="bg-surface-container px-2.5 py-1 rounded-full font-label-sm text-label-sm text-jolty-muted">
+                  All Vehicle Types
+                </span>
+              </div>
+
+              <!-- Service Tags & Pricing Row -->
+              <div class="flex items-center justify-between pt-1 border-t border-jolty-line/40">
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-[12px] text-jolty-muted">Jolty Platform Fee</span>
+                  <div class="flex items-baseline gap-1">
+                    <span class="font-headline-sm-mobile text-headline-sm-mobile font-extrabold text-jolty-ink">₹149</span>
+                    <span class="font-label-sm text-[11px] text-jolty-green font-bold">Upfront</span>
+                  </div>
+                  <span class="font-label-sm text-[10px] text-jolty-muted">Repair prices not included</span>
+                </div>
+                <button class="min-h-[48px] px-space-lg bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-md text-label-md font-bold rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-[0_2px_12px_rgba(255,184,0,0.3)] gap-1 choose-mechanic-btn" type="button" data-mechanic-id="sharma" data-mechanic-name="Sharma Ji Roadside Assistance" data-eta="18 mins" data-vehicle="Bolero Camper Service Truck (HR 26 BY 4120)">
+                  <span>Choose Mechanic</span>
+                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+              </div>
+
+              <div class="text-jolty-muted font-body-sm text-body-sm flex items-center gap-2">
+                <span class="font-label-sm text-label-sm uppercase font-semibold text-jolty-ink">Handles:</span>
+                <span class="truncate">Quick Fixes • Flat Tyre • Towing</span>
+              </div>
+            </article>
+
+            <!-- CARD 3: Highway Super Care & Battery Clinic -->
+            <article class="bg-jolty-paper rounded-2xl p-space-md shadow-sm transition-all hover:shadow-md flex flex-col gap-space-md relative overflow-hidden border border-jolty-line/60 mechanic-card" data-category="battery tyre towing">
+              <div class="flex items-start justify-between gap-space-sm">
+                <div class="flex gap-space-sm">
+                  <div class="relative w-14 h-14 rounded-2xl bg-surface-container flex items-center justify-center shrink-0 overflow-hidden shadow-inner">
+                    <img class="w-full h-full object-cover" alt="Portrait of rescue driver" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKWfrJW-JKvKfRB0kMjCfIqz1D0bY-goHSLVGrLgd7NtwYiWA6NUp9SvxTOnYzyEDJZtS6AywIQM96B03DtDLqIyeDBRq2MDa2VLwpBKFb07J7Gg_5y_vAEM_BjACZ3MZpxpe-Ohtei5igi_peEyH7I2aqXjs7V8qmGA4AEXbkSnlfXTVIIewSjB3xV-SjL7_QJsk6_4SoPQJE00KXMg_fiqvANgQUuuYWPpzIFtn9sq37ZcrG_rrx">
+                    <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-jolty-green rounded-full shadow-sm"></span>
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink leading-tight">
+                      Highway Super Care & Battery Clinic
+                    </h2>
+                    <div class="flex items-center gap-1.5 mt-1 text-jolty-muted">
+                      <div class="flex items-center text-jolty-ink font-label-sm text-label-sm font-semibold">
+                        <span class="material-symbols-outlined text-[15px] text-jolty-amber mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span>4.7</span>
+                        <span class="text-jolty-muted font-normal ml-0.5">(98)</span>
+                      </div>
+                      <span>•</span>
+                      <span class="font-label-sm text-label-sm text-jolty-muted">Heavy Duty Ready</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Distance & ETA Strip -->
+              <div class="bg-jolty-cream rounded-xl p-2.5 flex items-center justify-between border border-jolty-line/60">
+                <div class="flex items-center gap-1 text-jolty-ink font-label-md text-label-md font-semibold">
+                  <span class="material-symbols-outlined text-[18px] text-jolty-amber">near_me</span>
+                  <span>4.5 km away</span>
+                </div>
+                <div class="flex items-center gap-1 bg-jolty-paper px-2.5 py-1 rounded-full shadow-sm font-label-sm text-label-sm text-jolty-ink font-semibold">
+                  <span class="material-symbols-outlined text-[15px] text-jolty-green">timer</span>
+                  <span>ETA ~22 mins</span>
+                </div>
+              </div>
+
+              <!-- Feature Badges -->
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="bg-surface-container px-2.5 py-1 rounded-full font-label-sm text-label-sm text-jolty-ink flex items-center gap-1 font-semibold">
+                  <span class="material-symbols-outlined text-[13px] text-jolty-amber">rv_hookup</span>
+                  Tow Truck Available
+                </span>
+                <span class="bg-surface-container px-2.5 py-1 rounded-full font-label-sm text-label-sm text-jolty-muted">
+                  Jumpstart Station
+                </span>
+              </div>
+
+              <!-- Service Tags & Pricing Row -->
+              <div class="flex items-center justify-between pt-1 border-t border-jolty-line/40">
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-[12px] text-jolty-muted">Jolty Platform Fee</span>
+                  <div class="flex items-baseline gap-1">
+                    <span class="font-headline-sm-mobile text-headline-sm-mobile font-extrabold text-jolty-ink">₹149</span>
+                    <span class="font-label-sm text-[11px] text-jolty-green font-bold">Upfront</span>
+                  </div>
+                  <span class="font-label-sm text-[10px] text-jolty-muted">Repair prices not included</span>
+                </div>
+                <button class="min-h-[48px] px-space-lg bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-md text-label-md font-bold rounded-full flex items-center justify-center transition-transform active:scale-95 shadow-[0_2px_12px_rgba(255,184,0,0.3)] gap-1 choose-mechanic-btn" type="button" data-mechanic-id="supercare" data-mechanic-name="Highway Super Care & Battery" data-eta="22 mins" data-vehicle="Tata 407 Flatbed Carrier (DL 1L P 9920)">
+                  <span>Choose Mechanic</span>
+                  <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </button>
+              </div>
+
+              <div class="text-jolty-muted font-body-sm text-body-sm flex items-center gap-2">
+                <span class="font-label-sm text-label-sm uppercase font-semibold text-jolty-ink">Handles:</span>
+                <span class="truncate">Jumpstart • Flat Tyre • Towing</span>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Assurance Trust Ribbon -->
+          <div class="bg-surface-container-low rounded-2xl p-space-md flex items-center gap-space-md border border-jolty-line/60">
+            <div class="w-10 h-10 rounded-full bg-jolty-green/10 text-jolty-green flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">verified_user</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-label-md text-label-md font-bold text-jolty-ink">Jolty Safety Guarantee</span>
+              <span class="font-body-sm text-body-sm text-jolty-muted">Standardized platform dispatch fee, police-verified technicians, and live tracking for your security.</span>
+            </div>
+          </div>
+
+          <!-- Emergency Highway SOS Quick Dial Banner -->
+          <div class="w-full bg-jolty-night rounded-2xl p-space-md text-jolty-paper shadow-md relative overflow-hidden flex flex-col gap-space-sm border border-jolty-line/20">
+            <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-error/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex items-center gap-2 text-error-container">
+              <span class="material-symbols-outlined text-[20px] animate-bounce text-error">fmd_bad</span>
+              <span class="font-label-sm text-label-sm font-bold uppercase tracking-wider text-jolty-paper">Emergency Helpline</span>
+            </div>
+            <div class="flex flex-col">
+              <p class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-paper">Stuck on highway at night?</p>
+              <p class="font-body-sm text-body-sm text-jolty-paper/70">Direct bridge to our 24/7 central rapid highway response control room.</p>
+            </div>
+            <a class="mt-1 min-h-[48px] w-full bg-error hover:bg-error/90 active:scale-[0.98] transition-transform rounded-xl flex items-center justify-center gap-2 text-on-error font-label-md text-label-md font-bold shadow-lg shadow-error/30" href="tel:18005658924">
+              <span class="material-symbols-outlined text-[20px]">call</span>
+              <span>Call Jolty SOS 1800-JOLTY-24</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 3: LIVE TRACKING & MECHANIC STATUS (Matches Stitch Screen 1905e8f6)
+         ====================================================================== -->
+    <section class="screen-view" id="screen-tracking" aria-labelledby="trackingHeadline">
+      <div class="flex flex-col w-full pb-8">
+        
+        <!-- Status & Headline Banner -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full pt-3 pb-2">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-jolty-green/10 text-jolty-green font-label-sm text-label-sm mb-2 shadow-sm font-semibold">
+            <span class="w-2 h-2 rounded-full bg-jolty-green animate-ping"></span>
+            <span>Live Tracking Active</span>
+          </div>
+          <h1 class="font-headline-md-mobile md:text-headline-lg text-headline-md-mobile text-jolty-ink font-bold tracking-tight" id="trackingHeadline">
+            Your mechanic is on the way
+          </h1>
+          <p class="font-body-sm md:text-body-md text-body-sm text-jolty-muted mt-0.5">
+            Assistance dispatched to your breakdown spot. Stay calm, help is moments away.
+          </p>
+        </div>
+
+        <!-- Interactive Live Map & Stepper Card -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full mt-2">
+          <div class="relative w-full rounded-2xl overflow-hidden bg-jolty-paper shadow-[0_8px_30px_rgba(17,19,21,0.06)] border border-jolty-line/60">
+            
+            <!-- Live Map Canvas with Ambient Highway Aesthetic -->
+            <div class="relative w-full h-64 md:h-80 bg-jolty-night overflow-hidden select-none" id="mapTrackerCanvas">
+              
+              <!-- Stylized Map Background (Highway Grid & Terrain) -->
+              <svg class="absolute inset-0 w-full h-full opacity-35" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern height="32" id="grid-pattern" patternUnits="userSpaceOnUse" width="32">
+                    <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#FAF7F0" stroke-opacity="0.12" stroke-width="0.5"></path>
+                  </pattern>
+                </defs>
+                <rect fill="url(#grid-pattern)" height="100%" width="100%"></rect>
+                <path d="M-20,180 Q100,140 200,110 T420,40" fill="none" stroke="#FAF7F0" stroke-linecap="round" stroke-opacity="0.08" stroke-width="14"></path>
+                <path d="M-20,180 Q100,140 200,110 T420,40" fill="none" stroke="#FAF7F0" stroke-dasharray="6 8" stroke-opacity="0.3" stroke-width="2"></path>
+              </svg>
+
+              <!-- Route SVG with Animated Pulsing Path -->
+              <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 360 224">
+                <defs>
+                  <linearGradient id="routeGrad" x1="0%" x2="100%" y1="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FFB800"></stop>
+                    <stop offset="100%" stop-color="#16834A"></stop>
+                  </linearGradient>
+                  <filter height="140%" id="glow" width="140%" x="-20%" y="-20%">
+                    <feGaussianBlur result="blur" stdDeviation="3"></feGaussianBlur>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+                  </filter>
+                </defs>
+                <path d="M 50 170 C 120 160, 160 120, 220 100 S 290 70, 310 52" fill="none" opacity="0.4" stroke="#080A0C" stroke-linecap="round" stroke-width="8"></path>
+                <path d="M 50 170 C 120 160, 160 120, 220 100 S 290 70, 310 52" fill="none" filter="url(#glow)" stroke="url(#routeGrad)" stroke-linecap="round" stroke-width="4.5"></path>
+                <path class="animate-dash-route" d="M 50 170 C 120 160, 160 120, 220 100 S 290 70, 310 52" fill="none" stroke="#FAF7F0" stroke-dasharray="4 10" stroke-linecap="round" stroke-width="2"></path>
+              </svg>
+
+              <!-- Milestone Marker Tag (Roadside Indian Vernacular) -->
+              <div class="absolute bottom-3 left-3 bg-jolty-cream/95 text-jolty-ink rounded-lg px-2.5 py-1 shadow-md flex items-center gap-1.5 backdrop-blur-sm border border-jolty-line/60">
+                <div class="w-2.5 h-3.5 rounded-t-sm bg-jolty-amber flex flex-col justify-end">
+                  <div class="h-1.5 bg-jolty-cream"></div>
+                </div>
+                <span class="font-label-sm text-label-sm font-bold tracking-wider text-[11px]" id="trackingMilestoneBadge">
+                  NH-48 • KM 42
+                </span>
+              </div>
+
+              <!-- Stranded User Car Marker (Target) -->
+              <div class="absolute right-7 top-7 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                <div class="relative flex items-center justify-center">
+                  <span class="absolute w-8 h-8 rounded-full bg-error/30 animate-ping"></span>
+                  <span class="relative w-7 h-7 rounded-full bg-error text-on-error flex items-center justify-center shadow-md">
+                    <span class="material-symbols-outlined text-[16px]">warning</span>
+                  </span>
+                </div>
+                <span class="mt-1 px-1.5 py-0.5 rounded bg-jolty-night/90 text-[10px] text-jolty-cream font-label-sm font-bold shadow-sm whitespace-nowrap">
+                  Your Spot
+                </span>
+              </div>
+
+              <!-- Moving Mechanic Van Marker (Live Position Simulation) -->
+              <div class="absolute left-32 top-28 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer transition-all duration-700" id="mechanic-marker">
+                <div class="relative flex items-center justify-center">
+                  <span class="absolute -inset-1 rounded-full bg-jolty-amber/40 animate-pulse"></span>
+                  <div class="relative px-2.5 py-1 rounded-full bg-jolty-amber text-jolty-ink font-label-sm font-bold shadow-lg flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[15px]">local_shipping</span>
+                    <span class="text-[11px] font-bold" id="markerMechanicName">Suresh</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Map Controls -->
+              <div class="absolute top-3 right-3 flex flex-col gap-1.5">
+                <button class="w-8 h-8 rounded-lg bg-jolty-paper/90 backdrop-blur-sm shadow text-jolty-ink flex items-center justify-center active:scale-90 transition-transform" id="recenter-btn" title="Recenter Map View">
+                  <span class="material-symbols-outlined text-[18px]">my_location</span>
+                </button>
+                <button class="w-8 h-8 rounded-lg bg-jolty-paper/90 backdrop-blur-sm shadow text-jolty-ink flex items-center justify-center active:scale-90 transition-transform" id="traffic-toggle-btn" title="Toggle Highway Layers">
+                  <span class="material-symbols-outlined text-[18px]">layers</span>
+                </button>
+              </div>
+
+              <!-- Floating Live Distance Pill -->
+              <div class="absolute top-3 left-3 bg-jolty-night/85 backdrop-blur-md text-jolty-paper px-3 py-1.5 rounded-full flex items-center gap-2 shadow-md">
+                <span class="w-2 h-2 rounded-full bg-jolty-amber animate-pulse"></span>
+                <span class="font-label-sm text-label-sm font-semibold">
+                  Mechanic <strong class="text-jolty-amber font-bold" id="trackingDistanceText">2.1 km away</strong>
+                </span>
+              </div>
+            </div>
+
+            <!-- Prominent ETA Hero Strip -->
+            <div class="p-space-md bg-jolty-paper flex items-center justify-between border-b border-jolty-line/60">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-jolty-amber/15 text-jolty-ink flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[26px] text-jolty-ink">timer</span>
+                </div>
+                <div>
+                  <div class="flex items-baseline gap-1.5">
+                    <span class="font-headline-sm-mobile md:text-headline-sm text-headline-sm-mobile font-bold text-jolty-ink" id="trackingEtaTitle">
+                      Arriving in 11 mins
+                    </span>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-jolty-muted">Traffic is moderate • Smooth expressway route</p>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="px-3 py-1 rounded-md bg-surface-container font-label-sm text-label-sm font-bold text-jolty-ink" id="trackingClockEta">
+                  ETA ~14 mins
+                </span>
+              </div>
+            </div>
+
+            <!-- Live Order Stepper -->
+            <div class="px-space-md pb-space-md pt-3 bg-jolty-paper">
+              <div class="grid grid-cols-4 gap-1 relative">
+                <!-- Connector line -->
+                <div class="absolute top-3.5 left-5 right-5 h-0.5 bg-surface-container z-0">
+                  <div class="h-full bg-jolty-amber w-[42%] transition-all duration-500"></div>
+                </div>
+
+                <!-- Step 1: Confirmed (Done) -->
+                <div class="flex flex-col items-center text-center relative z-10">
+                  <div class="w-7 h-7 rounded-full bg-jolty-green text-on-tertiary flex items-center justify-center shadow-sm">
+                    <span class="material-symbols-outlined text-[16px]">check</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm font-bold text-jolty-ink mt-1.5 text-[11px] leading-tight">Confirmed</span>
+                  <span class="font-label-sm text-[10px] text-jolty-muted">Dispatch Locked</span>
+                </div>
+
+                <!-- Step 2: On The Way (Active) -->
+                <div class="flex flex-col items-center text-center relative z-10">
+                  <div class="w-7 h-7 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center shadow-md animate-bounce">
+                    <span class="material-symbols-outlined text-[16px]">navigation</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm font-bold text-jolty-ink mt-1.5 text-[11px] leading-tight">On The Way</span>
+                  <span class="font-label-sm text-[10px] text-jolty-green font-bold">In Transit</span>
+                </div>
+
+                <!-- Step 3: Arrived (Pending) -->
+                <div class="flex flex-col items-center text-center relative z-10 opacity-45">
+                  <div class="w-7 h-7 rounded-full bg-surface-container text-jolty-muted flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[16px]">location_on</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm font-medium text-jolty-muted mt-1.5 text-[11px] leading-tight">Arrived</span>
+                  <span class="font-label-sm text-[10px] text-jolty-muted">Inspection</span>
+                </div>
+
+                <!-- Step 4: Service Done (Pending) -->
+                <div class="flex flex-col items-center text-center relative z-10 opacity-45">
+                  <div class="w-7 h-7 rounded-full bg-surface-container text-jolty-muted flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[16px]">build_circle</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm font-medium text-jolty-muted mt-1.5 text-[11px] leading-tight">Service Done</span>
+                  <span class="font-label-sm text-[10px] text-jolty-muted">Invoice</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Assigned Mechanic Profile Card -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full mt-4">
+          <div class="rounded-2xl bg-jolty-paper p-space-md shadow-[0_8px_30px_rgba(17,19,21,0.05)] border border-jolty-line/60">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-start gap-3">
+                <div class="relative shrink-0">
+                  <img class="w-14 h-14 rounded-full object-cover shadow-sm" alt="Portrait of Suresh Kumar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWxSiVUuuFD1KIbYSM5kO1IJxqTuHI9ykXNGDBe7AnAutW1--pZ3w3UAMhctl2_YF-t_j9PLhh6XGnJbjzkR9v9GPnPfdhcvZ8YKSbJFaIs-jm9iA6fJ-v90DuJ1xUKWMo2bo0aQR8Md2LzfalTYqmR9DaUWCcXuAG8F0L1tJY8uSUpE5zh6HQUzIyahJeUc24sZcbjagwHMiZItVsobU4pjNeHOUN7EisEwKacU_yB9diTsh7kjTd">
+                  <div class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-jolty-green text-on-tertiary flex items-center justify-center shadow">
+                    <span class="material-symbols-outlined text-[12px]">verified</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink" id="assignedMechanicTitle">
+                      Suresh Kumar
+                    </h2>
+                    <span class="px-2 py-0.5 rounded-full bg-surface-container text-jolty-ink text-[11px] font-semibold">Verified Partner</span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="inline-flex items-center gap-0.5 text-jolty-ink font-label-sm text-label-sm font-semibold">
+                      <span class="material-symbols-outlined text-[15px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">star</span>
+                      4.9
+                    </span>
+                    <span class="text-jolty-muted font-label-sm text-label-sm">•</span>
+                    <span class="font-label-sm text-label-sm text-jolty-muted">420+ rescues</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vehicle Details Banner -->
+            <div class="mt-3 py-2 px-3 rounded-xl bg-jolty-cream flex items-center justify-between border border-jolty-line/60">
+              <div class="flex items-center gap-2 text-jolty-ink">
+                <span class="material-symbols-outlined text-[20px] text-jolty-muted">airport_shuttle</span>
+                <span class="font-label-md text-label-md font-medium" id="trackingVehicleModel">White Maruti Eeco (Service Van)</span>
+              </div>
+              <span class="font-label-md text-label-md font-bold tracking-wider text-jolty-ink px-2 py-0.5 bg-jolty-paper rounded shadow-sm border border-jolty-line/60">
+                DL 3C AB 9812
+              </span>
+            </div>
+
+            <!-- Action Buttons (Call / WhatsApp) -->
+            <div class="grid grid-cols-2 gap-3 mt-4">
+              <a class="h-12 rounded-xl bg-jolty-amber text-jolty-ink font-label-lg text-label-lg font-bold flex items-center justify-center gap-2 shadow-sm active:scale-98 transition-transform hover:bg-primary-fixed-dim" href="tel:+919876543210">
+                <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">call</span>
+                <span>Call Suresh</span>
+              </a>
+              <a class="h-12 rounded-xl bg-surface-container text-jolty-ink font-label-lg text-label-lg font-semibold flex items-center justify-center gap-2 shadow-sm active:scale-98 transition-transform hover:bg-surface-container-high border border-jolty-line" href="https://wa.me/919876543210?text=Hi%20Suresh,%20I%20am%20waiting%20for%20assistance%20on%20NH-48" target="_blank" rel="noopener">
+                <span class="material-symbols-outlined text-[20px]">chat</span>
+                <span>Message</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highway Safety Reassurance Card -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full mt-4">
+          <div class="rounded-2xl bg-gradient-to-r from-jolty-amber-soft/40 to-surface-container-high p-4 flex items-start gap-3 shadow-[0_4px_20px_rgba(255,184,0,0.08)] border border-jolty-line/40">
+            <div class="w-9 h-9 rounded-full bg-jolty-amber text-jolty-ink flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+              <span class="material-symbols-outlined text-[20px]">e911_emergency</span>
+            </div>
+            <div>
+              <h3 class="font-label-md text-label-md font-bold text-jolty-ink">Roadside Safety First</h3>
+              <p class="font-body-sm text-body-sm text-jolty-ink mt-0.5 leading-snug">
+                Stay inside your vehicle with hazard lights ON. Emergency safety triangle deployed 50m behind.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking & Service Breakdown (With Clear Jolty Fee vs Repair Cost Distinction) -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full mt-4">
+          <div class="rounded-2xl bg-jolty-paper p-space-md shadow-[0_8px_30px_rgba(17,19,21,0.05)] border border-jolty-line/60">
+            <h3 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink mb-3">
+              Booking Details & Financial Breakdown
+            </h3>
+
+            <!-- Service Item -->
+            <div class="flex items-start gap-3 pb-3 border-b border-jolty-line/50">
+              <div class="w-10 h-10 rounded-xl bg-jolty-cream flex items-center justify-center shrink-0 text-jolty-ink">
+                <span class="material-symbols-outlined text-[22px]">tire_repair</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-label-md text-label-md font-bold text-jolty-ink truncate" id="trackingServiceItem">
+                    Flat Tyre Repair & Assistance Dispatch
+                  </span>
+                  <span class="font-label-md text-label-md font-bold text-jolty-ink">₹149</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">
+                  Jolty Platform Fee (Dispatched to verified local partner)
+                </p>
+              </div>
+            </div>
+
+            <!-- Breakdown Location (Synchronized) -->
+            <div class="flex items-start gap-3 pt-3 pb-3 border-b border-jolty-line/50">
+              <div class="w-10 h-10 rounded-xl bg-jolty-cream flex items-center justify-center shrink-0 text-jolty-ink">
+                <span class="material-symbols-outlined text-[22px]">pin_drop</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="font-label-md text-label-md font-bold text-jolty-ink">Breakdown Location</span>
+                  <span class="px-2 py-0.5 rounded text-[11px] bg-jolty-green/10 text-jolty-green font-semibold">GPS Locked</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-jolty-ink mt-0.5 font-medium truncate" id="trackingAddressDisplay">
+                  NH-48 Km Stone 42, Delhi-Jaipur Expy, Near Manesar Toll Plaza
+                </p>
+                <p class="font-label-sm text-label-sm text-jolty-muted" id="trackingMilestoneDisplay">
+                  Estimated based on device position • Manesar Corridor
+                </p>
+              </div>
+            </div>
+
+            <!-- Transparent Pricing Callout Box in Booking View -->
+            <div class="mt-4 pt-3 bg-jolty-cream rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border border-jolty-line/60">
+              <div class="flex items-start gap-2.5">
+                <span class="material-symbols-outlined text-[22px] text-jolty-green mt-0.5">verified_user</span>
+                <div>
+                  <span class="font-label-sm text-label-sm font-bold text-jolty-ink block">
+                    Jolty Fee Paid: ₹149
+                  </span>
+                  <span class="font-label-sm text-[12px] text-jolty-ink/80 block mt-0.5">
+                    <strong>Repair prices are not included.</strong> The repair cost is separate and depends on the work required (to be settled with Suresh Kumar after completion).
+                  </span>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 bg-jolty-amber text-jolty-ink rounded-lg font-label-sm font-bold shrink-0 self-end sm:self-center">
+                Fee Settled
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Highway Atmosphere Card -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full mt-4">
+          <div class="relative rounded-2xl overflow-hidden bg-jolty-night text-jolty-paper p-4 shadow-lg border border-jolty-line/20">
+            <div class="relative z-10 flex items-center justify-between">
+              <div>
+                <div class="flex items-center gap-1.5 text-jolty-amber font-label-sm text-label-sm font-bold">
+                  <span class="material-symbols-outlined text-[16px]">toll</span>
+                  <span>Jolty Highway Sentinel</span>
+                </div>
+                <p class="font-headline-sm-mobile text-headline-sm-mobile font-bold mt-1 text-jolty-paper">Safe & Protected 24x7</p>
+                <p class="font-body-sm text-body-sm text-jolty-muted mt-0.5">Patrolling responders deployed across 1,400+ national highway stretches.</p>
+              </div>
+              <div class="w-14 h-14 rounded-2xl bg-jolty-ink flex items-center justify-center shrink-0 shadow-inner">
+                <span class="material-symbols-outlined text-[32px] text-jolty-amber">shield</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SOS & Emergency Support Action Section -->
+        <div class="px-margin-mobile max-w-7xl mx-auto w-full mt-5 mb-2">
+          <div class="rounded-2xl bg-surface-container-high p-4 flex flex-col sm:flex-row items-center justify-between gap-3 border border-jolty-line/60">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <div class="w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-[22px]">sos</span>
+              </div>
+              <div>
+                <h4 class="font-label-md text-label-md font-bold text-jolty-ink">Need immediate human help?</h4>
+                <p class="font-body-sm text-body-sm text-jolty-muted">Direct line to Jolty Emergency Operations Center</p>
+              </div>
+            </div>
+            <a class="w-full sm:w-auto px-5 h-11 rounded-xl bg-error text-on-error font-label-md text-label-md font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform shrink-0 shadow-md" href="tel:18001088899">
+              <span class="material-symbols-outlined text-[18px]">support_agent</span>
+              <span>24/7 SOS Helpline</span>
+            </a>
+          </div>
+
+          <!-- Cancellation / Share Trip Controls -->
+          <div class="flex items-center justify-center gap-4 mt-4 text-center">
+            <button class="font-label-sm text-label-sm text-jolty-muted hover:text-jolty-ink transition-colors py-1" id="cancel-request-btn" type="button">
+              Cancel Request
+            </button>
+            <span class="text-jolty-muted text-xs">•</span>
+            <button class="font-label-sm text-label-sm font-semibold text-jolty-ink hover:text-jolty-green transition-colors py-1 flex items-center gap-1" id="share-trip-btn" type="button">
+              <span class="material-symbols-outlined text-[16px]">share_location</span>
+              <span>Share Live Track with Family</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SCREEN 4: LOGIN & IDENTITY (Matches Stitch Screen 4a752164)
+         ====================================================================== -->
+    <section class="screen-view" id="screen-login" aria-labelledby="loginHeadline">
+      <div class="flex flex-col w-full relative overflow-hidden min-w-0 min-h-[calc(100vh-4rem)] justify-center">
+        
+        <!-- Atmospheric Background Visual -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <div class="absolute inset-0 bg-cover bg-center scale-105 filter blur-sm opacity-35" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB115n3WoMDrZ8zaU0_NQsn1cggFWZRzLuRKqrSoKvDtJCl7p4V8QW-HLUdWd8uT9MY2rfF5mkNIrwXjyOEjLRI7AoIm9BOljDQXvZ7K5UX4Sc6zeFp2004CFcbDStQ9tiW9EXLEIcTgEEJRekTX-8cBTKEugdCX8cfF5qxdmz2rK88oZhlWAT3edny7JxmIA_3x6UdEtTIS5AfIjbGyKDrC1xqHmzY3RhJWTIig8O6NlggNFh4JwHX');"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-jolty-cream/80 via-jolty-cream/95 to-jolty-cream"></div>
+          <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 bg-jolty-amber-soft/40 rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- Content Container -->
+        <div class="relative z-10 w-full px-5 py-6 flex flex-col justify-center items-center">
+          
+          <!-- Top Utility & Help Status Badge -->
+          <div class="w-full max-w-sm flex items-center justify-between mb-5">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-jolty-green/10 text-jolty-green">
+              <span class="w-2 h-2 rounded-full bg-jolty-green animate-pulse"></span>
+              <span class="font-label-sm text-label-sm font-semibold tracking-wide uppercase">24/7 Roadside Active</span>
+            </div>
+            <a class="font-label-sm text-label-sm text-jolty-muted hover:text-jolty-ink flex items-center gap-1 transition-colors" href="tel:18005658924">
+              <span class="material-symbols-outlined text-[16px]">support_agent</span>
+              <span>SOS Helpline</span>
+            </a>
+          </div>
+
+          <!-- Centered Login Card -->
+          <div class="w-full max-w-sm bg-jolty-paper rounded-2xl shadow-sm p-6 sm:p-7 relative transition-all border border-jolty-line/60">
+            <!-- Brand Wordmark Header -->
+            <div class="text-center mb-6">
+              <div class="inline-flex items-baseline justify-center select-none mb-3">
+                <span class="font-display-hero-mobile text-[34px] leading-none font-black tracking-tight text-jolty-ink">Jolty</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-jolty-amber ml-0.5 self-end mb-1"></span>
+              </div>
+              <h1 class="font-headline-sm-mobile text-headline-sm-mobile text-jolty-ink font-bold tracking-tight mb-2" id="loginHeadline">
+                Welcome back
+              </h1>
+              <p class="font-body-sm text-body-sm text-jolty-muted leading-relaxed px-1">
+                Log in to book mechanic services, track your rescue status, and manage your vehicles.
+              </p>
+            </div>
+
+            <!-- Authentication Form -->
+            <form class="flex flex-col gap-4" id="loginForm">
+              <div class="flex flex-col gap-1.5">
+                <label class="font-label-sm text-label-sm text-jolty-ink font-medium flex items-center justify-between" for="mobile-number">
+                  <span>Mobile Phone Number</span>
+                  <span class="text-jolty-muted font-normal text-[11px]">Instant SMS OTP</span>
+                </label>
+                <div class="relative flex items-center h-[52px] bg-jolty-cream/60 rounded-xl px-3 transition-all focus-within:bg-jolty-paper focus-within:shadow-[0_0_0_2px_#FFB800] border border-jolty-line/60">
+                  <div class="flex items-center gap-1.5 pr-2.5 mr-2">
+                    <span class="text-base leading-none">🇮🇳</span>
+                    <span class="font-label-md text-label-md text-jolty-ink font-semibold">+91</span>
+                    <span class="w-px h-5 bg-jolty-line ml-1.5"></span>
+                  </div>
+                  <input 
+                    class="w-full bg-transparent font-label-lg text-label-lg text-jolty-ink placeholder:text-jolty-muted/60 focus:outline-none tracking-wider" 
+                    id="mobile-number" 
+                    inputmode="numeric" 
+                    maxlength="10" 
+                    name="mobile" 
+                    placeholder="98765 43210" 
+                    required 
+                    type="tel"
+                  >
+                  <span class="material-symbols-outlined text-jolty-green text-xl hidden transition-all" id="phone-valid-icon" style="font-variation-settings: 'FILL' 1;">
+                    check_circle
+                  </span>
+                </div>
+              </div>
+
+              <!-- Primary Action: Send OTP Button -->
+              <button 
+                class="relative w-full h-[50px] bg-jolty-amber hover:bg-[#EAA800] active:scale-[0.98] text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(255,184,0,0.35)] transition-all mt-1" 
+                id="otp-btn" 
+                type="submit"
+              >
+                <span id="otp-btn-text">Send OTP</span>
+                <span class="material-symbols-outlined text-[20px]" id="otp-btn-icon">arrow_forward</span>
+              </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative flex items-center my-6">
+              <div class="flex-grow h-px bg-jolty-line"></div>
+              <span class="px-3 font-label-sm text-label-sm text-jolty-muted bg-jolty-paper">or continue with</span>
+              <div class="flex-grow h-px bg-jolty-line"></div>
+            </div>
+
+            <!-- Social Identity Buttons -->
+            <div class="grid grid-cols-2 gap-3 mb-6">
+              <button class="h-12 w-full bg-jolty-cream/70 hover:bg-jolty-cream active:scale-[0.97] rounded-xl flex items-center justify-center gap-2.5 transition-all text-jolty-ink font-label-md text-label-md border border-jolty-line/60" id="googleLoginBtn" type="button">
+                <svg class="w-5 h-5" viewBox="0 0 24 24">
+                  <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.15z" fill="#4285F4"></path>
+                  <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
+                  <path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.17 0 9.99 0 12s.45 3.83 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
+                  <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.94 1.19 15.23 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+                </svg>
+                <span class="font-semibold text-jolty-ink">Google</span>
+              </button>
+
+              <button class="h-12 w-full bg-jolty-cream/70 hover:bg-jolty-cream active:scale-[0.97] rounded-xl flex items-center justify-center gap-2.5 transition-all text-jolty-ink font-label-md text-label-md border border-jolty-line/60" id="appleLoginBtn" type="button">
+                <svg class="w-5 h-5 fill-jolty-ink" viewBox="0 0 170 170">
+                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.74 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.05-7.8-8.08-12.36-15.08-6.73-10.37-12.16-22.18-16.29-35.43-4.13-13.26-6.19-25.59-6.19-37 0-14.73 3.99-26.68 11.96-35.85 7.97-9.17 17.77-13.82 29.39-13.96 4.7 0 9.87 1.25 15.52 3.75 5.65 2.5 9.77 3.78 12.36 3.84 2.12 0 6.35-1.37 12.69-4.11 6.34-2.74 11.75-3.93 16.23-3.56 12.06.84 21.94 5.37 29.62 13.58-10.59 6.44-15.75 15.35-15.5 26.74.25 9.4 3.98 17.29 11.19 23.68 7.21 6.39 15.79 10.02 25.75 10.89-2.58 7.94-5.69 15.37-9.33 22.31zM119.22 31.81c0-7.39 2.68-14.3 8.04-20.73 5.36-6.43 11.99-10.42 19.89-11.98.51 3.8.44 7.42-.21 10.86-.65 3.44-2.05 6.89-4.2 10.35-2.6 4.14-5.83 7.4-9.69 9.78-3.86 2.38-7.79 3.7-11.79 3.96-.28-.75-.84-1.49-1.04-2.24z"></path>
+                </svg>
+                <span class="font-semibold text-jolty-ink">Apple</span>
+              </button>
+            </div>
+
+            <!-- Alternate Link -->
+            <div class="text-center pt-1">
+              <p class="font-body-sm text-body-sm text-jolty-muted">
+                New to Jolty? 
+                <a class="font-label-md text-label-md text-jolty-ink font-bold hover:text-primary transition-colors underline decoration-jolty-amber decoration-2 underline-offset-4 ml-1" href="#home">
+                  Explore as Guest
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <!-- Trust Badges & Legal -->
+          <div class="w-full max-w-sm mt-6 text-center flex flex-col items-center gap-3">
+            <div class="flex items-center justify-center gap-4 text-jolty-muted font-label-sm text-label-sm">
+              <span class="inline-flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px] text-jolty-green" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                <span>Verified Mechanics</span>
+              </span>
+              <span class="w-1 h-1 rounded-full bg-jolty-line"></span>
+              <span class="inline-flex items-center gap-1">
+                <span class="material-symbols-outlined text-[16px] text-jolty-amber" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                <span>15-min ETA</span>
+              </span>
+            </div>
+            <p class="font-label-sm text-[12px] leading-tight text-jolty-muted/80 px-4">
+              By continuing, you agree to Jolty’s 
+              <a class="text-jolty-ink underline underline-offset-2 hover:text-primary transition-colors" href="#terms">Terms of Service</a> 
+              and 
+              <a class="text-jolty-ink underline underline-offset-2 hover:text-primary transition-colors" href="#privacy">Privacy Policy</a>.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       SHARED DIALOG 1: LOCATION SELECTION & MANUAL ADDRESS ENTRY MODAL
+       ====================================================================== -->
+  <div class="dialog-backdrop" id="addressModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="addressModalTitle">
+    <div class="dialog-sheet p-6 flex flex-col gap-4">
+      <div class="flex items-center justify-between pb-2 border-b border-jolty-line">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-jolty-amber text-[24px]">pin_drop</span>
+          <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink" id="addressModalTitle">
+            Set Breakdown Location
+          </h2>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-jolty-ink hover:bg-surface-container-high transition-colors" id="closeAddressModalBtn" aria-label="Close dialog">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <p class="font-body-sm text-body-sm text-jolty-muted">
+        Detect your position automatically using device GPS or enter your nearest highway milestone, toll gate, or landmark.
+      </p>
+
+      <!-- GPS Detection Trigger -->
+      <button type="button" class="w-full h-12 bg-surface-container hover:bg-surface-container-high active:scale-98 rounded-xl flex items-center justify-center gap-2 text-jolty-ink font-label-md text-label-md font-bold transition-all border border-jolty-line" id="modalGpsDetectBtn">
+        <span class="material-symbols-outlined text-jolty-green text-[20px]" id="modalGpsIcon">my_location</span>
+        <span id="modalGpsText">Detect Location via Device GPS</span>
+      </button>
+
+      <div class="relative flex items-center my-1">
+        <div class="flex-grow h-px bg-jolty-line"></div>
+        <span class="px-3 font-label-sm text-label-sm text-jolty-muted">or specify manually</span>
+        <div class="flex-grow h-px bg-jolty-line"></div>
+      </div>
+
+      <!-- Manual Input Field -->
+      <div class="flex flex-col gap-1.5">
+        <label for="modalManualInput" class="font-label-sm text-label-sm font-semibold text-jolty-ink">
+          Highway Milestone, Landmark, or Address
+        </label>
+        <textarea 
+          id="modalManualInput" 
+          rows="3" 
+          class="w-full p-3 bg-jolty-cream/70 rounded-xl border border-jolty-line text-jolty-ink font-body-sm focus:outline-none focus:border-jolty-amber focus:bg-jolty-paper transition-all"
+          placeholder="e.g. NH-48 near Manesar Toll Plaza, Gurugram"
+        ></textarea>
+        <span class="text-[11px] text-jolty-muted">Location estimates are based on your device position. You can edit any details.</span>
+      </div>
+
+      <!-- Quick Highway Landmarks in India -->
+      <div class="flex flex-col gap-1.5 pt-1">
+        <span class="font-label-sm text-[11px] uppercase tracking-wider text-jolty-muted font-bold">Quick Indian Highway Corridors:</span>
+        <div class="flex flex-wrap gap-1.5">
+          <button type="button" class="preset-loc-chip px-2.5 py-1 rounded-lg bg-surface-container text-jolty-ink text-[12px] font-semibold hover:bg-jolty-amber/20 transition-colors">
+            NH-48 Manesar Toll
+          </button>
+          <button type="button" class="preset-loc-chip px-2.5 py-1 rounded-lg bg-surface-container text-jolty-ink text-[12px] font-semibold hover:bg-jolty-amber/20 transition-colors">
+            Outer Ring Road, Bengaluru
+          </button>
+          <button type="button" class="preset-loc-chip px-2.5 py-1 rounded-lg bg-surface-container text-jolty-ink text-[12px] font-semibold hover:bg-jolty-amber/20 transition-colors">
+            Mumbai-Pune Expy, Khalapur
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 pt-3 border-t border-jolty-line">
+        <button type="button" class="w-1/2 h-12 rounded-xl bg-surface-container text-jolty-ink font-label-md text-label-md font-semibold hover:bg-surface-container-high transition-colors" id="cancelAddressModalBtn">
+          Cancel
+        </button>
+        <button type="button" class="w-1/2 h-12 rounded-xl bg-jolty-amber hover:bg-primary-container text-jolty-ink font-label-md text-label-md font-bold transition-transform active:scale-95 shadow-md" id="saveAddressModalBtn">
+          Confirm Address
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       SHARED DIALOG 2: REPAIR BOOKING & CHECKOUT MODAL
+       ====================================================================== -->
+  <div class="dialog-backdrop" id="bookingModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+    <div class="dialog-sheet p-6 flex flex-col gap-4">
+      <div class="flex items-center justify-between pb-2 border-b border-jolty-line">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-jolty-amber text-[24px]">verified_user</span>
+          <h2 class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink" id="bookingModalTitle">
+            Confirm Assistance Request
+          </h2>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-jolty-ink hover:bg-surface-container-high transition-colors" id="closeBookingModalBtn" aria-label="Close dialog">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <!-- Selected Mechanic Mini Card -->
+      <div class="p-3 bg-jolty-cream rounded-xl flex items-center justify-between border border-jolty-line/60">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-jolty-ink font-bold">
+            <span class="material-symbols-outlined text-[24px]">engineering</span>
+          </div>
+          <div>
+            <h4 class="font-label-md text-label-md font-bold text-jolty-ink" id="bookingModalMechName">Rajesh Auto Works</h4>
+            <p class="font-body-sm text-[12px] text-jolty-muted" id="bookingModalMechEta">ETA ~12 mins • Verified Pro</p>
+          </div>
+        </div>
+        <span class="px-2.5 py-1 rounded-full bg-jolty-green/10 text-jolty-green font-label-sm text-[11px] font-bold">
+          Ready for Dispatch
+        </span>
+      </div>
+
+      <!-- Confirmed Location Summary -->
+      <div class="p-3 bg-jolty-paper rounded-xl border border-jolty-line/60 flex items-start justify-between gap-2">
+        <div class="flex items-start gap-2">
+          <span class="material-symbols-outlined text-[18px] text-jolty-amber mt-0.5">location_on</span>
+          <div>
+            <span class="font-label-sm text-[11px] text-jolty-muted uppercase font-bold block">Breakdown Location:</span>
+            <p class="font-body-sm text-[13px] text-jolty-ink font-semibold" id="bookingModalLocationText">NH-48, near Manesar Toll Plaza</p>
+          </div>
+        </div>
+        <button type="button" class="text-jolty-amber text-[12px] font-bold underline" id="bookingChangeLocBtn">Edit</button>
+      </div>
+
+      <!-- CRITICAL PRICING BREAKDOWN (Explicit Jolty fee vs repair prices) -->
+      <div class="pricing-notice-card">
+        <div class="flex justify-between items-center pb-2 border-b border-jolty-amber/30">
+          <div class="flex items-center gap-1.5">
+            <span class="font-label-md text-label-md font-bold text-jolty-ink">Jolty Platform Fee</span>
+            <span class="pricing-badge-tag text-[10px] px-2 py-0.5">Pay Upfront</span>
+          </div>
+          <span class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-ink">₹149</span>
+        </div>
+        <p class="font-body-sm text-[12px] text-jolty-ink/80 mt-2">
+          Covers instant mechanic assignment, priority night dispatch routing, live GPS tracking, and 24/7 dedicated support.
+        </p>
+        
+        <!-- EXPLICIT REPAIR EXCLUSION MANDATE -->
+        <div class="repair-excluded-callout mt-2.5 bg-jolty-paper p-3 rounded-lg border-l-4 border-jolty-amber">
+          <p class="font-body-sm text-body-sm text-jolty-ink leading-tight">
+            <strong class="font-bold text-jolty-ink">Repair prices are not included.</strong><br>
+            The repair cost is separate and depends on the work required. The mechanic will inspect the issue on-site and quote itemized repair charges before beginning any work.
+          </p>
+        </div>
+      </div>
+
+      <!-- Primary Action CTA -->
+      <div class="pt-2">
+        <button type="button" class="w-full h-13 py-3 bg-jolty-amber hover:bg-primary-container active:scale-[0.98] text-jolty-ink font-label-lg text-label-lg font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg transition-transform" id="confirmDispatchBtn">
+          <span class="material-symbols-outlined text-[20px]">bolt</span>
+          <span>Confirm & Dispatch Mechanic (₹149)</span>
+        </button>
+        <p class="text-center font-label-sm text-[11px] text-jolty-muted mt-2">
+          Instant cancellation allowed before mechanic reaches your breakdown spot.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared Global Footer -->
+  <footer class="w-full bg-jolty-black text-jolty-cream px-margin-mobile pt-space-xl pb-24 md:pb-12 mt-space-xl">
+    <div class="max-w-7xl mx-auto flex flex-col gap-space-lg">
+      <div class="flex flex-col gap-space-xs">
+        <span class="font-headline-sm-mobile text-headline-sm-mobile font-bold text-jolty-paper">
+          Jolty<span class="text-jolty-amber">.</span>
+        </span>
+        <p class="font-body-sm text-body-sm text-jolty-muted">Har Safar Mein Saath</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+        <div class="flex flex-col gap-space-sm">
+          <span class="font-label-sm text-label-sm text-jolty-muted uppercase tracking-wider">Company</span>
+          <a class="font-body-sm text-body-sm text-jolty-paper/90 hover:text-jolty-amber transition-colors min-h-[36px] flex items-center" href="#services">Services</a>
+          <a class="font-body-sm text-body-sm text-jolty-paper/90 hover:text-jolty-amber transition-colors min-h-[36px] flex items-center" href="#home">How it Works</a>
+        </div>
+        <div class="flex flex-col gap-space-sm">
+          <span class="font-label-sm text-label-sm text-jolty-muted uppercase tracking-wider">Network</span>
+          <a class="font-body-sm text-body-sm text-jolty-paper/90 hover:text-jolty-amber transition-colors min-h-[36px] flex items-center" href="#mechanics">For Mechanics</a>
+          <a class="font-body-sm text-body-sm text-jolty-paper/90 hover:text-jolty-amber transition-colors min-h-[36px] flex items-center" href="#about">About</a>
+        </div>
+        <div class="flex flex-col gap-space-sm">
+          <span class="font-label-sm text-label-sm text-jolty-muted uppercase tracking-wider">Help & Safety</span>
+          <a class="font-body-sm text-body-sm text-jolty-paper/90 hover:text-jolty-amber transition-colors min-h-[36px] flex items-center" href="tel:18005658924">1800-JOLTY-24</a>
+          <a class="font-body-sm text-body-sm text-jolty-paper/90 hover:text-jolty-amber transition-colors min-h-[36px] flex items-center" href="#tracking">Live Support</a>
+        </div>
+        <div class="flex flex-col gap-space-sm">
+          <span class="font-label-sm text-label-sm text-jolty-muted uppercase tracking-wider">Coverage</span>
+          <span class="font-body-sm text-body-sm text-jolty-muted">All National Highways, Expressways & Metro Hubs</span>
+        </div>
+      </div>
+
+      <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-jolty-line/10">
+        <span class="font-label-sm text-label-sm text-jolty-muted">© 2025–2026 Jolty Roadside Marketplace India. All rights reserved.</span>
+        <div class="flex items-center gap-space-xs">
+          <span class="inline-block w-2 h-2 rounded-full bg-jolty-green animate-pulse"></span>
+          <span class="font-label-sm text-label-sm text-jolty-green font-semibold">24/7 National Highway Patrol Active</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fixed Mobile Bottom Navigation Bar matching Stitch -->
+  <nav class="fixed bottom-0 w-full z-50 pb-safe bg-jolty-paper/95 backdrop-blur-xl border-t border-jolty-line md:hidden shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" aria-label="Mobile Navigation">
+    <div class="flex justify-around items-center h-16 px-space-xs">
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] transition-colors gap-0.5 text-jolty-ink font-bold nav-item" href="#home" data-route="home">
+        <span class="material-symbols-outlined text-[22px]">home</span>
+        <span class="font-label-sm text-[11px]">Home</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#mechanics" data-route="mechanics">
+        <span class="material-symbols-outlined text-[22px]">car_repair</span>
+        <span class="font-label-sm text-[11px]">Services</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#tracking" data-route="tracking">
+        <span class="material-symbols-outlined text-[22px]">route</span>
+        <span class="font-label-sm text-[11px]">Process</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#mechanics" data-route="mechanics">
+        <span class="material-symbols-outlined text-[22px]">handyman</span>
+        <span class="font-label-sm text-[11px]">Mechanics</span>
+      </a>
+      <a class="flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-jolty-muted hover:text-jolty-ink transition-colors gap-0.5 nav-item" href="#login" data-route="login">
+        <span class="material-symbols-outlined text-[22px]">person</span>
+        <span class="font-label-sm text-[11px]">Account</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="js/location-service.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+/* ==========================================================================
+   Jolty Roadside Assistance — Design System & Custom Styles
+   Based on Google Stitch Project 9279876243502578812 & design.md
+   Typography: DM Sans | Icons: Material Symbols Outlined
+   Palette: Warm Cream (#FAF7F0), Amber (#FFB800), Night (#101820), Ink (#111315)
+   ========================================================================== */
+
+/* Root Variables for Custom Components */
+:root {
+  --jolty-cream: #FAF7F0;
+  --jolty-paper: #FFFFFF;
+  --jolty-amber: #FFB800;
+  --jolty-amber-hover: #EAA800;
+  --jolty-amber-soft: #FFE7A3;
+  --jolty-ink: #111315;
+  --jolty-night: #101820;
+  --jolty-black: #080A0C;
+  --jolty-muted: #686D73;
+  --jolty-line: #E8E3DA;
+  --jolty-green: #16834A;
+  --jolty-error: #BA1A1A;
+  --jolty-surface-container: #EAEEF5;
+}
+
+/* Global Reset & Base */
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--jolty-cream);
+  color: var(--jolty-ink);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Material Symbols configuration */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  line-height: 1;
+  display: inline-block;
+  user-select: none;
+}
+
+.material-symbols-outlined.fill-1 {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Safe Area Insets for Mobile Displays */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Hide scrollbars cleanly while allowing natural scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Highway Animated SVG Route Dash */
+@keyframes highwayDash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+.animate-dash-route {
+  animation: highwayDash 1.4s linear infinite;
+}
+
+/* Pulse Glows */
+@keyframes amberGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 184, 0, 0);
+  }
+}
+.glow-amber-pulse {
+  animation: amberGlow 2s infinite;
+}
+
+/* Screen View Transition Logic */
+.screen-view {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+.screen-view.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Desktop Max Constraints & Alignment (1200px max container per design tokens) */
+.page-container {
+  width: 100%;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Prominent Jolty Fee & Repair Price Exemption Box */
+.pricing-notice-card {
+  background-color: #FFF9E6;
+  border: 1.5px solid #FFD875;
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  position: relative;
+}
+
+.pricing-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background-color: var(--jolty-amber);
+  color: var(--jolty-ink);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.repair-excluded-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #FAF7F0;
+  border-left: 3.5px solid var(--jolty-amber);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Modal and Bottom Sheet Dialogs */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(16, 24, 32, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.dialog-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 640px) {
+  .dialog-backdrop {
+    align-items: center;
+  }
+}
+
+.dialog-sheet {
+  background-color: var(--jolty-paper);
+  width: 100%;
+  max-width: 520px;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  box-shadow: 0 -8px 30px rgba(17, 19, 21, 0.15);
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .dialog-sheet {
+    border-radius: 1.5rem;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
+.dialog-backdrop.active .dialog-sheet {
+  transform: translateY(0);
+}
+
+@media (min-width: 640px) {
+  .dialog-backdrop.active .dialog-sheet {
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Toast Notifications */
+.jolty-toast {
+  position: fixed;
+  top: 5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  z-index: 120;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  max-width: 90%;
+  width: max-content;
+}
+
+.jolty-toast.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Accessible Focus States */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--jolty-amber);
+  outline-offset: 2px;
+}
+
+/* Interactive touch target guarantee */
+.min-touch-target {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Indian Milestone Graphical Element */
+.indian-milestone-marker {
+  width: 28px;
+  height: 38px;
+  background-color: var(--jolty-paper);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  border: 1.5px solid var(--jolty-line);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  align-items: center;
+}
+.indian-milestone-marker .cap-yellow {
+  width: 100%;
+  height: 14px;
+  background-color: var(--jolty-amber);
+}
+.indian-milestone-marker .body-white {
+  width: 100%;
+  flex: 1;
+  background-color: var(--jolty-paper);
+}
